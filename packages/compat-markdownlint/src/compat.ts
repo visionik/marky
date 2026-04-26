@@ -1,7 +1,10 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import type { PluginEntry } from '@marky/core'
+import { md009Rule, md010Rule } from '@marky/core'
+import { md001Rule } from './rules/md001.js'
 import { md013Rule } from './rules/md013.js'
+import { md022Rule } from './rules/md022.js'
 import { md041Rule } from './rules/md041.js'
 
 /** Shape returned by {@link loadMarkdownlintConfig}. */
@@ -11,7 +14,11 @@ export interface CompatConfig {
 
 /** Map of supported markdownlint rule IDs to their marky plugin. */
 const RULE_MAP: ReadonlyMap<string, PluginEntry> = new Map<string, PluginEntry>([
+  ['MD001', md001Rule],
+  ['MD009', md009Rule],
+  ['MD010', md010Rule],
   ['MD013', md013Rule],
+  ['MD022', md022Rule],
   ['MD041', md041Rule],
 ])
 

@@ -19,7 +19,8 @@
   },
   "dependencies": {
     "@marky/core": "workspace:*",
-    "unified-lint-rule": "^3.0.1"
+    "unified-lint-rule": "^3.0.1",
+    "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
     "@types/mdast": "^4.0.4",

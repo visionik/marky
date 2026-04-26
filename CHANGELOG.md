@@ -22,6 +22,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `md009Rule` + `md009Fixer` — trailing spaces: detect and strip via regex-based line scanner
 - `md010Rule` + `md010Fixer(content, { tabSize? })` — hard tabs: detect and replace with configurable spaces (default: 4)
 
+#### Rule porting tool (`@marky/cli` + `@marky/compat-markdownlint`)
+- `marky migrate [config-path]` — reads `.markdownlintrc` / `.markdownlint.json`, classifies each rule as supported/unsupported/disabled, writes a ready-to-use `marky.config.ts` with imports pre-wired
+- Migration report lists `✓` / `✗` per rule with the target symbol and source package
+- Summary line: "N rules migrated, M rules require manual attention"
+- Auto-discovers config in cwd when no path given; exits 1 if no config found
+- New rules in `@marky/compat-markdownlint`:
+  - `md001Rule` — heading levels increment by one
+  - `md022Rule` — blank lines around headings
+- `@marky/compat-markdownlint` `loadMarkdownlintConfig` now maps MD001, MD009, MD010, MD022, MD013, MD041
+- README rule mapping table updated (6 supported, 4 not-yet-implemented)
+
 ## [0.1.0] — 2026-04-26 — Phase 1 MVP
 
 ### Added

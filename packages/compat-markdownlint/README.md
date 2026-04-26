@@ -29,12 +29,16 @@ const result = await lintString(content, {
 
 | markdownlint rule | Status | marky equivalent |
 |---|---|---|
+| MD001 (heading-increment) | ✅ Supported | `md001Rule` from `@marky/compat-markdownlint` |
+| MD009 (trailing-spaces) | ✅ Supported | `md009Rule` from `@marky/core` |
+| MD010 (no-hard-tabs) | ✅ Supported | `md010Rule` from `@marky/core` |
 | MD013 (line-length) | ✅ Supported | `md013Rule` (default: 80 chars) |
+| MD022 (blanks-around-headings) | ✅ Supported | `md022Rule` from `@marky/compat-markdownlint` |
 | MD041 (first-line-heading) | ✅ Supported | `md041Rule` |
-| MD001 (heading-levels) | ❌ Not yet implemented | — |
-| MD009 (trailing-spaces) | ❌ Not yet implemented | — |
-| MD010 (no-hard-tabs) | ❌ Not yet implemented | — |
-| MD022 (blanks-around-headings) | ❌ Not yet implemented | — |
+| MD005 (list-indent) | ❌ Not yet implemented | — |
+| MD007 (unordered-list-style) | ❌ Not yet implemented | — |
+| MD031 (fenced-code-blocks) | ❌ Not yet implemented | — |
+| MD032 (list-surrounded-blanks) | ❌ Not yet implemented | — |
 
 ## Config file format
 

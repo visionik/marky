@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Rule porting tool (marky migrate) + expanded compat coverage",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Lower the migration barrier from markdownlint. Adds `marky migrate <config>` CLI command that reads an existing .markdownlintrc and reports which rules have marky equivalents, which are unsupported, and what manual steps remain. Also expands @marky/compat-markdownlint with 4+ additional rule shims."
     },
@@ -44,6 +44,6 @@
         "title": "Tests: migrate command produces correct report; new rules fire on appropriate violations; task check green"
       }
     ],
-    "updated": "2026-04-26T20:09:57Z"
+    "updated": "2026-04-26T20:53:22Z"
   }
 }

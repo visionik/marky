@@ -1,4 +1,5 @@
 import { readdir, stat, writeFile } from 'node:fs/promises'
+import { runMigrate } from './migrate.js'
 import { isAbsolute, join, resolve } from 'node:path'
 import { Command, CommanderError, Option } from 'commander'
 import {
@@ -243,6 +244,16 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
     .option('--dry-run', 'with --fix, show what would change without writing')
     .action(async (paths: string[], opts: LintOptions) => {
       actionExitCode = await runLintAction(paths, opts, ioFull)
+    })
+
+  program
+    .command('migrate [config-path]')
+    .description(
+      'Migrate a .markdownlintrc config to marky.config.ts. ' +
+        'Defaults to .markdownlintrc or .markdownlint.json in cwd.',
+    )
+    .action(async (configPath?: string) => {
+      actionExitCode = await runMigrate(configPath, { stdout, stderr, cwd })
     })
 
   try {
