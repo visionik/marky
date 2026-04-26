@@ -2,7 +2,7 @@ import { stat } from 'node:fs/promises'
 import { dirname, join, parse as parsePath } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createJiti } from 'jiti'
-import type { Plugin, Severity } from './types.js'
+import type { PluginEntry, Severity } from './types.js'
 
 /** Severity values accepted in `MarkyConfig.rules`, plus the disabling 'off'. */
 export type RuleSeverity = Severity | 'off'
@@ -22,7 +22,7 @@ export interface MarkyConfig {
    * Unified/remark plugins to apply as lint rules. Plugins are evaluated in
    * order after the built-in remark-parse / remark-gfm / remark-lint steps.
    */
-  plugins?: Plugin[]
+  plugins?: PluginEntry[]
 }
 
 /** Filename marky looks for when resolving a configuration. */
@@ -100,7 +100,7 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
     if (!Array.isArray(plugins)) {
       throw new Error(`Invalid marky.config.ts at ${configPath}: "plugins" must be an array.`)
     }
-    config.plugins = plugins as Plugin[]
+    config.plugins = plugins as PluginEntry[]
   }
 
   return config

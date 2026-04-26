@@ -18,6 +18,11 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@marky/core": "workspace:*"
+    "@marky/core": "workspace:*",
+    "unified-lint-rule": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/mdast": "^4.0.4",
+    "@types/node": "^25.6.0"
   }
 }

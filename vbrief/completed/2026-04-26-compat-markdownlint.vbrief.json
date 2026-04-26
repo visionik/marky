@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "markdownlint compatibility layer (packages/compat-markdownlint)",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Implement the markdownlint compatibility layer in packages/compat-markdownlint. Maps markdownlint rule identifiers (e.g. MD013) to equivalent unified-lint-rule shims. Detects and loads .markdownlintrc or .markdownlint.json from the project root and translates the config into MarkyConfig format. Covers FR-5."
     },
@@ -40,6 +40,6 @@
         "title": "task check passes at >= 85% coverage for packages/compat-markdownlint"
       }
     ],
-    "updated": "2026-04-26T17:17:16Z"
+    "updated": "2026-04-26T19:34:30Z"
   }
 }
