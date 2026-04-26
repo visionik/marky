@@ -1,4 +1,6 @@
 import { readdir, stat, writeFile } from 'node:fs/promises'
+import { spawn } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { runMigrate } from './migrate.js'
 import { isAbsolute, join, resolve } from 'node:path'
 import { Command, CommanderError, Option } from 'commander'
@@ -244,6 +246,20 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
     .option('--dry-run', 'with --fix, show what would change without writing')
     .action(async (paths: string[], opts: LintOptions) => {
       actionExitCode = await runLintAction(paths, opts, ioFull)
+    })
+
+  program
+    .command('lsp')
+    .description('Start the marky Language Server over stdio (for Neovim, Zed, Helix, etc.).')
+    .action(() => {
+      const req = createRequire(import.meta.url)
+      const pkg = req.resolve('@marky/lsp/package.json') as string
+      const pkgDir = pkg.replace(/[\\/]package\.json$/, '')
+      const bin = `${pkgDir}/dist/bin.js`
+      const child = spawn(process.execPath, [bin], { stdio: 'inherit' })
+      child.on('exit', (code) => {
+        actionExitCode = code ?? 0
+      })
     })
 
   program

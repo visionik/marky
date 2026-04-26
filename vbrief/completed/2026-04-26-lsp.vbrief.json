@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Language Server Protocol (LSP) integration",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Wrap the @marky/core pipeline in an LSP server so editors can show inline lint diagnostics without a separate plugin. New @marky/lsp package using vscode-languageserver. Ships with a VS Code extension as a thin wrapper. Depends on auto-fix scope for the codeAction/fix capability."
     },
@@ -48,6 +48,6 @@
         "title": "task check passes at >= 85% coverage for @marky/lsp"
       }
     ],
-    "updated": "2026-04-26T20:09:57Z"
+    "updated": "2026-04-26T21:04:10Z"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "@marky/vscode",
+  "version": "0.1.0",
+  "description": "VS Code extension for marky Markdown linter",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "main": "./dist/extension.js",
+  "scripts": {
+    "build": "tsup src/extension.ts --format cjs --no-splitting --external vscode",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@marky/lsp": "workspace:*",
+    "vscode-languageclient": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/vscode": "^1.80.0"
+  },
+  "peerDependencies": {
+    "vscode": "*"
+  }
+}

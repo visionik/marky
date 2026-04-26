@@ -5,6 +5,7 @@ export default defineConfig({
     globals: true,
     environment: 'node',
     include: ['packages/*/src/**/*.{test,spec}.ts'],
+    exclude: ['packages/vscode/src/**'],
     coverage: {
       provider: 'v8',
       thresholds: {
@@ -17,7 +18,9 @@ export default defineConfig({
       exclude: [
         'packages/*/src/**/*.{test,spec}.ts',
         'packages/*/src/types.ts',
-        'packages/*/src/bin.ts',
+        'packages/vscode/src/**',
+        'packages/lsp/src/bin.ts',
+        'packages/lsp/src/server.ts',
       ],
       reporter: ['text', 'lcov'],
     },

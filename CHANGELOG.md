@@ -22,6 +22,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `md009Rule` + `md009Fixer` — trailing spaces: detect and strip via regex-based line scanner
 - `md010Rule` + `md010Fixer(content, { tabSize? })` — hard tabs: detect and replace with configurable spaces (default: 4)
 
+#### LSP server + VS Code extension (`@marky/lsp` + `@marky/vscode`)
+- `@marky/lsp` package — LSP server using `vscode-languageserver`
+- `violationToDiagnostic` / `lintResultToDiagnostics` — pure mapping: 1-to-0-indexed positions, severity, source
+- `validateMarkdown(content, uri, config)` — runs `lintString` and returns LSP `Diagnostic[]`
+- `createServer(connection)` — wires `TextDocuments`: `onDidOpen`/`onDidSave` (immediate), `onDidChangeContent` (debounced 300ms), `onDidClose` (clear diagnostics)
+- Config hot-reload: watches `marky.config.ts` via `fs.watch`, invalidates cache on change
+- `codeActionProvider` stub: surfaces violations as QuickFix actions
+- `@marky/vscode` package — VS Code extension stub using `vscode-languageclient`, spawns `@marky/lsp` over stdio
+- `marky lsp` CLI command — starts the LSP server over stdio for Neovim, Zed, Helix, etc.
+
 #### Rule porting tool (`@marky/cli` + `@marky/compat-markdownlint`)
 - `marky migrate [config-path]` — reads `.markdownlintrc` / `.markdownlint.json`, classifies each rule as supported/unsupported/disabled, writes a ready-to-use `marky.config.ts` with imports pre-wired
 - Migration report lists `✓` / `✗` per rule with the target symbol and source package
