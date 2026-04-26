@@ -23,12 +23,14 @@ const failHeadingRule: Plugin = lintRule('test:fail-heading', (tree: Root, file)
 
 describe('lintString', () => {
   it('returns empty violations for valid Markdown', async () => {
-    const result = await lintString('# Hello\n\nThis is fine.\n', [])
+    const result = await lintString('# Hello\n\nThis is fine.\n')
     expect(result.violations).toHaveLength(0)
   })
 
   it('returns a violation when a rule fires', async () => {
-    const result = await lintString('# FAIL this heading\n', [failHeadingRule])
+    const result = await lintString('# FAIL this heading\n', {
+      plugins: [failHeadingRule],
+    })
     expect(result.violations).toHaveLength(1)
     const v = result.violations[0]
     expect(v).toBeDefined()
@@ -39,19 +41,37 @@ describe('lintString', () => {
   })
 
   it('reports severity as "warn" by default', async () => {
-    const result = await lintString('# FAIL\n', [failHeadingRule])
+    const result = await lintString('# FAIL\n', {
+      plugins: [failHeadingRule],
+    })
     expect(result.violations[0]?.severity).toBe('warn')
   })
 
   it('parses GFM tables without error', async () => {
     const gfmTable = '| a | b |\n|---|---|\n| 1 | 2 |\n'
-    const result = await lintString(gfmTable, [])
+    const result = await lintString(gfmTable)
     expect(result.violations).toHaveLength(0)
   })
 
   it('returns the filename in the result', async () => {
-    const result = await lintString('# Hi\n', [], 'test.md')
+    const result = await lintString('# Hi\n', {}, 'test.md')
     expect(result.file).toBe('test.md')
+  })
+
+  it('drops violations whose ruleId is set to "off" in config.rules', async () => {
+    const result = await lintString('# FAIL\n', {
+      plugins: [failHeadingRule],
+      rules: { 'test:fail-heading': 'off' },
+    })
+    expect(result.violations).toHaveLength(0)
+  })
+
+  it('promotes violations to "error" when configured in config.rules', async () => {
+    const result = await lintString('# FAIL\n', {
+      plugins: [failHeadingRule],
+      rules: { 'test:fail-heading': 'error' },
+    })
+    expect(result.violations[0]?.severity).toBe('error')
   })
 })
 
@@ -62,7 +82,7 @@ describe('lintString ruleId fallback', () => {
       msg.source = 'my-source'
       msg.ruleId = undefined
     }
-    const result = await lintString('# ok\n', [sourceOnlyRule])
+    const result = await lintString('# ok\n', { plugins: [sourceOnlyRule] })
     expect(result.violations[0]?.ruleId).toBe('my-source')
   })
 
@@ -71,7 +91,7 @@ describe('lintString ruleId fallback', () => {
       const msg = file.message('fatal error')
       msg.fatal = true
     }
-    const result = await lintString('# ok\n', [fatalRule])
+    const result = await lintString('# ok\n', { plugins: [fatalRule] })
     expect(result.violations[0]?.severity).toBe('error')
   })
 
@@ -79,7 +99,7 @@ describe('lintString ruleId fallback', () => {
     const noPositionRule: Plugin = () => (_tree, file) => {
       file.message('no position')
     }
-    const result = await lintString('# ok\n', [noPositionRule])
+    const result = await lintString('# ok\n', { plugins: [noPositionRule] })
     expect(result.violations[0]?.line).toBe(1)
     expect(result.violations[0]?.column).toBe(1)
   })
@@ -91,7 +111,7 @@ describe('lintFile', () => {
     const filePath = join(dir, 'test.md')
     try {
       await writeFile(filePath, '# Hello world\n')
-      const result = await lintFile(filePath, [])
+      const result = await lintFile(filePath)
       expect(result.file).toBe(filePath)
       expect(result.violations).toHaveLength(0)
     } finally {

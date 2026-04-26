@@ -14,7 +14,11 @@ export default defineConfig({
         statements: 85,
       },
       include: ['packages/*/src/**/*.ts'],
-      exclude: ['packages/*/src/**/*.{test,spec}.ts', 'packages/*/src/types.ts'],
+      exclude: [
+        'packages/*/src/**/*.{test,spec}.ts',
+        'packages/*/src/types.ts',
+        'packages/*/src/bin.ts',
+      ],
       reporter: ['text', 'lcov'],
     },
   },

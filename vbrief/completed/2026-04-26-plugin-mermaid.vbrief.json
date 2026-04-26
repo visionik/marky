@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Mermaid validation plugin (packages/plugin-mermaid)",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Implement the remark-lint-mermaid plugin in packages/plugin-mermaid. Visits all code nodes with lang='mermaid', validates the node value using @mermaid-js/parser, and maps parse errors to LintViolation objects with accurate position data. Covers FR-3."
     },
@@ -40,6 +40,6 @@
         "title": "task check passes at >= 85% coverage for packages/plugin-mermaid"
       }
     ],
-    "updated": "2026-04-26T17:17:16Z"
+    "updated": "2026-04-26T18:40:55Z"
   }
 }

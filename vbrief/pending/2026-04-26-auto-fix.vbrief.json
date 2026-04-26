@@ -1,0 +1,49 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T20:08:12Z"
+  },
+  "plan": {
+    "title": "Auto-fix support (--fix flag + remark-stringify)",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Add auto-fix capability to marky. Rules opt in by supplying a `fix` handler that patches the mdast in place; remark-stringify serializes the corrected AST back to disk. The CLI gains a --fix flag. Ships with 3-4 safe mechanical fixers: MD009 trailing spaces, MD010 hard tabs, blank lines around headings (MD022/MD032)."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "Define Fixable plugin interface: rule may export a `fix` transformer in addition to a `check` reporter"
+      },
+      {
+        "id": "2",
+        "title": "`lintString` / `lintFile` gain a `fix: boolean` option; when true, run fix transformers and return patched content alongside violations"
+      },
+      {
+        "id": "3",
+        "title": "`marky lint --fix` rewrites files in place using remark-stringify; prints count of fixed violations and remaining unfixable ones"
+      },
+      {
+        "id": "4",
+        "title": "Dry-run mode: `marky lint --fix --dry-run` shows what would change without writing files"
+      },
+      {
+        "id": "5",
+        "title": "MD009 trailing-spaces auto-fixer implemented in @marky/core or new @marky/rules package"
+      },
+      {
+        "id": "6",
+        "title": "MD010 hard-tabs auto-fixer implemented"
+      },
+      {
+        "id": "7",
+        "title": "Tests: fix mode rewrites content correctly; dry-run does not touch files; unfixable violations still reported; exit code reflects remaining errors"
+      },
+      {
+        "id": "8",
+        "title": "task check passes at >= 85% coverage"
+      }
+    ],
+    "updated": "2026-04-26T20:09:57Z"
+  }
+}
