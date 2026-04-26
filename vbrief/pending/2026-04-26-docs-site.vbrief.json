@@ -1,0 +1,53 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T20:08:12Z"
+  },
+  "plan": {
+    "title": "Documentation site (Astro Starlight)",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Build the marky documentation site using Astro Starlight. Covers getting started, CLI reference, plugin authoring guide, API reference (TypeDoc), and the markdownlint migration guide. Can begin after auto-fix stabilises the core API."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "New `docs/` Astro Starlight site scaffolded with marky branding"
+      },
+      {
+        "id": "2",
+        "title": "Getting Started page: install, 60-second usage, marky.config.ts example"
+      },
+      {
+        "id": "3",
+        "title": "CLI reference: all commands, flags, and exit codes documented"
+      },
+      {
+        "id": "4",
+        "title": "Plugin authoring guide: how to write a unified-lint-rule and register it in marky.config.ts"
+      },
+      {
+        "id": "5",
+        "title": "API reference: TypeDoc output integrated into Starlight for @marky/core public API"
+      },
+      {
+        "id": "6",
+        "title": "markdownlint migration guide: maps common .markdownlintrc rules to marky equivalents"
+      },
+      {
+        "id": "7",
+        "title": "Architecture overview page with the mdast pipeline diagram"
+      },
+      {
+        "id": "8",
+        "title": "`task docs:dev` and `task docs:build` targets added to root Taskfile.yml"
+      },
+      {
+        "id": "9",
+        "title": "Deployed to fly.io or GitHub Pages via CI on push to main"
+      }
+    ],
+    "updated": "2026-04-26T20:09:57Z"
+  }
+}

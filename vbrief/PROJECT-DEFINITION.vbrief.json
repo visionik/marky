@@ -3,7 +3,8 @@
     "version": "0.6",
     "author": "agent:deft-directive-setup",
     "description": "Project identity gestalt",
-    "created": "2026-04-26T17:08:31Z"
+    "created": "2026-04-26T17:08:31Z",
+    "updated": "2026-04-26T20:10:02Z"
   },
   "plan": {
     "title": "marky",
@@ -17,6 +18,111 @@
       "Branching": "Allow direct commits to master: true",
       "DeftVersion": "0.20.0"
     },
-    "items": []
+    "items": [
+      {
+        "id": "2026-04-26-auto-fix",
+        "title": "Auto-fix support (--fix flag + remark-stringify)",
+        "status": "pending",
+        "metadata": {
+          "source_path": "pending/2026-04-26-auto-fix.vbrief.json",
+          "lifecycle_folder": "pending"
+        }
+      },
+      {
+        "id": "2026-04-26-docs-site",
+        "title": "Documentation site (Astro Starlight)",
+        "status": "pending",
+        "metadata": {
+          "source_path": "pending/2026-04-26-docs-site.vbrief.json",
+          "lifecycle_folder": "pending"
+        }
+      },
+      {
+        "id": "2026-04-26-lsp",
+        "title": "Language Server Protocol (LSP) integration",
+        "status": "pending",
+        "metadata": {
+          "source_path": "pending/2026-04-26-lsp.vbrief.json",
+          "lifecycle_folder": "pending"
+        }
+      },
+      {
+        "id": "2026-04-26-rule-porting-tool",
+        "title": "Rule porting tool (marky migrate) + expanded compat coverage",
+        "status": "pending",
+        "metadata": {
+          "source_path": "pending/2026-04-26-rule-porting-tool.vbrief.json",
+          "lifecycle_folder": "pending"
+        }
+      },
+      {
+        "id": "2026-04-26-cli-and-reporters",
+        "title": "CLI entry point and reporters",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-cli-and-reporters.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-compat-markdownlint",
+        "title": "markdownlint compatibility layer (packages/compat-markdownlint)",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-compat-markdownlint.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-config-system",
+        "title": "Config system (marky.config.ts)",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-config-system.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-core-lint-pipeline",
+        "title": "Core lint pipeline (packages/core)",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-core-lint-pipeline.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-monorepo-scaffold",
+        "title": "Monorepo scaffold and toolchain",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-monorepo-scaffold.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-plugin-mermaid",
+        "title": "Mermaid validation plugin (packages/plugin-mermaid)",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-plugin-mermaid.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      },
+      {
+        "id": "2026-04-26-programmatic-api",
+        "title": "Programmatic Node.js API",
+        "status": "completed",
+        "metadata": {
+          "source_path": "completed/2026-04-26-programmatic-api.vbrief.json",
+          "lifecycle_folder": "completed"
+        }
+      }
+    ],
+    "metadata": {
+      "staleness_flags": [
+        "7 scopes completed since last narrative update -- review recommended"
+      ]
+    }
   }
 }

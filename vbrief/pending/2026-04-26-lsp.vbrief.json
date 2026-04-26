@@ -1,0 +1,53 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T20:08:12Z"
+  },
+  "plan": {
+    "title": "Language Server Protocol (LSP) integration",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Wrap the @marky/core pipeline in an LSP server so editors can show inline lint diagnostics without a separate plugin. New @marky/lsp package using vscode-languageserver. Ships with a VS Code extension as a thin wrapper. Depends on auto-fix scope for the codeAction/fix capability."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "New `packages/lsp` workspace package (@marky/lsp) with vscode-languageserver dependency"
+      },
+      {
+        "id": "2",
+        "title": "LSP server: onDidOpen and onDidSave trigger lintString; publishes textDocument/publishDiagnostics"
+      },
+      {
+        "id": "3",
+        "title": "Debounced onDidChange handler (300ms) for as-you-type feedback"
+      },
+      {
+        "id": "4",
+        "title": "Config reload: watches marky.config.ts for changes and re-runs lint without server restart"
+      },
+      {
+        "id": "5",
+        "title": "codeAction provider: surfaces auto-fixable violations as quick-fix actions (depends on auto-fix scope)"
+      },
+      {
+        "id": "6",
+        "title": "New `packages/vscode` workspace package: VS Code extension that spawns @marky/lsp as a child process"
+      },
+      {
+        "id": "7",
+        "title": "`marky lsp` CLI command starts the LSP server over stdio for editor integration (Neovim, Zed, etc.)"
+      },
+      {
+        "id": "8",
+        "title": "Tests: LSP server emits correct diagnostics for known violations; clean file emits empty diagnostics array"
+      },
+      {
+        "id": "9",
+        "title": "task check passes at >= 85% coverage for @marky/lsp"
+      }
+    ],
+    "updated": "2026-04-26T20:09:57Z"
+  }
+}
