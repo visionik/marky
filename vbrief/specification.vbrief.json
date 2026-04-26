@@ -1,0 +1,30 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Full specification — marky Markdown linter",
+    "created": "2026-04-26T17:12:37Z"
+  },
+  "plan": {
+    "title": "marky (marklint) — Extensible Markdown Linter",
+    "status": "approved",
+    "narratives": {
+      "Overview": "marky is a pluggable, TypeScript-first Markdown linter built on the unified/remark ecosystem. It provides first-class support for Mermaid diagram validation, a clean plugin system, and a compatibility bridge for existing markdownlint rules — delivered as a cross-platform CLI.",
+
+      "ProblemStatement": "Existing Markdown linters lack first-class support for Mermaid diagram validation. markdownlint has a large rule set but is hard to extend and has no AST. remark-lint is extensible but requires deep ecosystem knowledge to configure. No tool bridges both worlds while offering precise, position-aware Mermaid syntax checking. Teams embedding Mermaid diagrams in docs have no linter that can catch diagram syntax errors before CI or render time.",
+
+      "Goals": "1. Provide a production-grade Markdown linter with first-class Mermaid diagram validation. 2. Build on the unified/remark ecosystem to maximise extensibility and reuse of the existing plugin library. 3. Offer a compatibility layer so teams can reuse their existing markdownlint rules without rewriting configs. 4. Deliver a TypeScript-first developer experience with marky.config.ts, typed plugin APIs, and vitest-based test fixtures. 5. Ship a CLI usable in local development and CI with pretty terminal output and structured JSON reporting.",
+
+      "UserStories": "As a developer, I want to run `marky lint .` and see position-aware lint errors for Markdown files so I can fix issues before committing. As a documentation engineer, I want Mermaid code blocks validated as part of the lint pass so broken diagrams are caught before they reach the docs site. As a team lead, I want to reuse our existing .markdownlintrc rules in marky so we can migrate without rewriting our config. As a plugin author, I want a clean, typed API to write a custom remark-lint rule and register it in marky.config.ts without forking the core. As a CI engineer, I want `marky lint --format json` to emit structured JSON so lint results can be parsed and reported in GitHub Actions.",
+
+      "Requirements": "FR-1: Parse Markdown files into an mdast AST using remark-parse and micromark. FR-2: Execute remark-lint rules against the AST and report violations with file path, line, column, rule name, and message. FR-3: Validate Mermaid code blocks (lang=mermaid) using @mermaid-js/parser and report syntax errors as lint violations. FR-4: Load configuration from marky.config.ts in the project root; support rule enable/disable, severity (error/warn/off), and plugin registration. FR-5: Provide a markdownlint compatibility layer that maps markdownlint rule identifiers to equivalent remark-lint rules or shims. FR-6: Output lint results in pretty terminal format (default) and structured JSON (--format json flag). FR-7: Accept file globs, directories, and stdin as input; exit non-zero on any error-severity violation. FR-8: Expose a programmatic Node.js API (marky.lint(files, config)) in addition to the CLI. NFR-1: CLI cold-start must complete within 500ms on an M-series Mac for a single file. NFR-2: All public APIs must be fully typed in TypeScript with exported type declarations. NFR-3: Test coverage must be >= 85% lines/functions/branches. NFR-4: Must run on Node.js 18+ and support Linux, macOS, and Windows.",
+
+      "SuccessMetrics": "1. marky lint can process a real Markdown repository (e.g. the marky repo itself) and correctly surface Mermaid syntax errors. 2. At least one markdownlint rule (MD013 line length recommended) is functional via the compatibility layer. 3. task check passes with >= 85% coverage. 4. CLI cold-start on a single file is under 500ms on an M-series Mac. 5. A marky.config.ts example in the repo documents the plugin API end-to-end.",
+
+      "Architecture": "Pipeline: Markdown file -> remark-parse + micromark -> mdast -> remark-lint rule engine -> [Mermaid plugin + markdownlint bridge + custom rules] -> reporter (terminal / JSON). Core layers: (1) Parser Layer — remark-parse + micromark with GFM support via remark-gfm. (2) AST Layer — standard mdast traversal with unist-util-visit. (3) Lint Layer — unified-lint-rule wrappers; each rule is a remark plugin. (4) Mermaid Plugin — visits code nodes with lang=mermaid, passes node.value to @mermaid-js/parser, maps parse errors to lint messages with position. (5) Compatibility Layer — maps markdownlint rule IDs to unified-lint-rule shims; loads .markdownlintrc if present. (6) Config Layer — marky.config.ts resolved via TypeScript import; exports a config object with rules array and plugins array. (7) Output Layer — pretty-format reporter (chalk, figures) and JSON reporter. CLI entry via commander.js. Monorepo structure recommended: packages/core (pipeline), packages/plugin-mermaid (Mermaid plugin), packages/compat-markdownlint (compatibility layer).",
+
+      "Roadmap": "Phase 1 (MVP): Core unified+remark-lint pipeline, basic CLI (lint command, --format, --config flags), @mermaid-js/parser Mermaid validation plugin, markdownlint compatibility layer, marky.config.ts config system, pretty terminal + JSON output, >= 85% test coverage. Phase 2: Auto-fix support via remark-stringify for mechanical fixes, rule porting CLI tool (marky migrate), editor Language Server Protocol (LSP) integration, full documentation site (Astro Starlight). Phase 3: Plugin marketplace/registry, performance optimisations for large repos, additional output formatters (SARIF for GitHub Code Scanning), plugin template repository."
+    },
+    "items": []
+  }
+}

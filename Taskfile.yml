@@ -1,0 +1,42 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available tasks
+    cmd: task --list
+
+  build:
+    desc: Build all packages
+    cmd: pnpm -r build
+
+  test:
+    desc: Run all tests
+    cmd: pnpm vitest run
+
+  test:coverage:
+    desc: Run tests with coverage (fails below 85%)
+    cmd: pnpm vitest run --coverage
+
+  typecheck:
+    desc: Type-check all packages
+    cmd: pnpm -r typecheck
+
+  lint:
+    desc: Lint all TypeScript source files
+    cmd: pnpm eslint packages/
+
+  fmt:
+    desc: Format code with Prettier
+    cmd: pnpm prettier --write 'packages/*/src/**/*.ts'
+
+  fmt:check:
+    desc: Check formatting (no writes)
+    cmd: pnpm prettier --check 'packages/*/src/**/*.ts'
+
+  check:
+    desc: Run all pre-commit checks (fmt:check, lint, typecheck, test:coverage)
+    deps: [fmt:check, lint, typecheck, test:coverage]
+
+  clean:
+    desc: Remove all build artifacts
+    cmd: pnpm -r --if-present clean

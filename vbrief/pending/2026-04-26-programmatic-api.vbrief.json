@@ -1,0 +1,45 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "Programmatic Node.js API",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Expose a clean programmatic API from packages/core so marky can be used as a library in build tools, editors, and other Node.js programs — not just as a CLI. The API accepts file paths or string content plus a MarkyConfig and returns LintResult objects. Covers FR-8."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "marky.lint(files: string[], config?: MarkyConfig): Promise<LintResult[]> exported from packages/core"
+      },
+      {
+        "id": "2",
+        "title": "marky.lintString(content: string, config?: MarkyConfig, filename?: string): Promise<LintResult> exported from packages/core"
+      },
+      {
+        "id": "3",
+        "title": "All public types (MarkyConfig, LintResult, LintViolation, Plugin) exported from packages/core index"
+      },
+      {
+        "id": "4",
+        "title": "API documented with JSDoc comments on all exported functions and types"
+      },
+      {
+        "id": "5",
+        "title": "Example usage snippet in packages/core/README.md showing lint() and lintString() calls"
+      },
+      {
+        "id": "6",
+        "title": "Unit tests cover: lint() on multiple files returns one LintResult per file, lintString() with no config returns results using defaults"
+      },
+      {
+        "id": "7",
+        "title": "task check passes at >= 85% coverage for API surface"
+      }
+    ],
+    "updated": "2026-04-26T17:17:16Z"
+  }
+}

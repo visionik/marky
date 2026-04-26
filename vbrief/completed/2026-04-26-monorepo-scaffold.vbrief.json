@@ -1,0 +1,45 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "Monorepo scaffold and toolchain",
+    "status": "completed",
+    "narratives": {
+      "Overview": "Set up the marky monorepo structure with three packages (core, plugin-mermaid, compat-markdownlint), shared TypeScript and vitest config, a root Taskfile.yml with standard deft task targets, and a root package.json with workspace configuration."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "Root package.json with npm/pnpm workspaces pointing to packages/*"
+      },
+      {
+        "id": "2",
+        "title": "packages/core, packages/plugin-mermaid, packages/compat-markdownlint directories each with package.json, tsconfig.json, and src/index.ts stub"
+      },
+      {
+        "id": "3",
+        "title": "Root tsconfig.json with strict mode, ESM output, Node 18 target; each package extends root"
+      },
+      {
+        "id": "4",
+        "title": "Root vitest.config.ts with workspace mode; coverage threshold set to 85% (v8 provider)"
+      },
+      {
+        "id": "5",
+        "title": "Root Taskfile.yml with tasks: build, test, test:coverage, lint, fmt, check (runs all), clean"
+      },
+      {
+        "id": "6",
+        "title": ".gitignore, .npmignore, .editorconfig present at root"
+      },
+      {
+        "id": "7",
+        "title": "task check passes (no source yet, but toolchain resolves without errors)"
+      }
+    ],
+    "updated": "2026-04-26T17:21:39Z"
+  }
+}

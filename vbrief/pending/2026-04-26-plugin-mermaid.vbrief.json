@@ -1,0 +1,45 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "Mermaid validation plugin (packages/plugin-mermaid)",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Implement the remark-lint-mermaid plugin in packages/plugin-mermaid. Visits all code nodes with lang='mermaid', validates the node value using @mermaid-js/parser, and maps parse errors to LintViolation objects with accurate position data. Covers FR-3."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "remarkLintMermaid plugin implemented using unified-lint-rule and unist-util-visit"
+      },
+      {
+        "id": "2",
+        "title": "Plugin visits 'code' nodes where node.lang === 'mermaid'"
+      },
+      {
+        "id": "3",
+        "title": "Each code block value passed to @mermaid-js/parser; parse errors mapped to lint violations with node.position line/column"
+      },
+      {
+        "id": "4",
+        "title": "Valid Mermaid blocks produce zero violations"
+      },
+      {
+        "id": "5",
+        "title": "Plugin exported from packages/plugin-mermaid and registerable via marky.config.ts plugins array"
+      },
+      {
+        "id": "6",
+        "title": "Unit tests cover: valid flowchart passes, invalid syntax produces violation with correct line/col, non-mermaid code blocks are ignored, empty mermaid block is handled gracefully"
+      },
+      {
+        "id": "7",
+        "title": "task check passes at >= 85% coverage for packages/plugin-mermaid"
+      }
+    ],
+    "updated": "2026-04-26T17:17:16Z"
+  }
+}

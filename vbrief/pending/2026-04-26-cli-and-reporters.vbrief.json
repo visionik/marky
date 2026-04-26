@@ -1,0 +1,53 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "CLI entry point and reporters",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Implement the marky CLI using commander.js with a lint subcommand. Accepts file globs, directories, or stdin. Supports --format (pretty|json) and --config flags. Exits non-zero on any error-severity violation. Includes a pretty terminal reporter (chalk + figures) and a JSON reporter. Covers FR-6, FR-7."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "`marky lint <glob|dir>` command implemented via commander.js; accepts one or more path arguments"
+      },
+      {
+        "id": "2",
+        "title": "--format flag accepts 'pretty' (default) and 'json'; invalid value prints usage and exits 1"
+      },
+      {
+        "id": "3",
+        "title": "--config flag accepts an explicit path to marky.config.ts, overriding directory walk"
+      },
+      {
+        "id": "4",
+        "title": "Pretty reporter outputs: filename, line:col, severity icon, rule ID, message; groups violations by file"
+      },
+      {
+        "id": "5",
+        "title": "JSON reporter outputs a JSON array of LintResult objects to stdout"
+      },
+      {
+        "id": "6",
+        "title": "Process exits 0 when no error-severity violations; exits 1 otherwise"
+      },
+      {
+        "id": "7",
+        "title": "Stdin mode: `cat file.md | marky lint -` pipes content through the linter"
+      },
+      {
+        "id": "8",
+        "title": "Integration tests cover: clean file exits 0, file with error exits 1, --format json produces parseable output"
+      },
+      {
+        "id": "9",
+        "title": "task check passes at >= 85% coverage for CLI module"
+      }
+    ],
+    "updated": "2026-04-26T17:17:16Z"
+  }
+}

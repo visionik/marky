@@ -1,0 +1,45 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "markdownlint compatibility layer (packages/compat-markdownlint)",
+    "status": "pending",
+    "narratives": {
+      "Overview": "Implement the markdownlint compatibility layer in packages/compat-markdownlint. Maps markdownlint rule identifiers (e.g. MD013) to equivalent unified-lint-rule shims. Detects and loads .markdownlintrc or .markdownlint.json from the project root and translates the config into MarkyConfig format. Covers FR-5."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "loadMarkdownlintConfig(cwd: string): Promise<Partial<MarkyConfig>> reads .markdownlintrc / .markdownlint.json and translates enabled rules to marky plugin/severity entries"
+      },
+      {
+        "id": "2",
+        "title": "MD013 (line-length) rule implemented as a unified-lint-rule shim with configurable line-length option"
+      },
+      {
+        "id": "3",
+        "title": "MD041 (first-line-heading) rule implemented as a unified-lint-rule shim"
+      },
+      {
+        "id": "4",
+        "title": "Rule mapping table documented in packages/compat-markdownlint/README.md listing supported vs unsupported markdownlint rules"
+      },
+      {
+        "id": "5",
+        "title": "When .markdownlintrc is absent, loadMarkdownlintConfig returns an empty config without error"
+      },
+      {
+        "id": "6",
+        "title": "Unit tests cover: .markdownlintrc loaded and translated, MD013 fires on a long line, MD041 fires when first line is not a heading, absent config returns empty"
+      },
+      {
+        "id": "7",
+        "title": "task check passes at >= 85% coverage for packages/compat-markdownlint"
+      }
+    ],
+    "updated": "2026-04-26T17:17:16Z"
+  }
+}

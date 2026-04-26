@@ -1,0 +1,45 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "created": "2026-04-26T17:13:39Z"
+  },
+  "plan": {
+    "title": "Core lint pipeline (packages/core)",
+    "status": "completed",
+    "narratives": {
+      "Overview": "Implement the packages/core lint engine: parse Markdown to mdast via remark-parse + micromark, execute unified-lint-rule plugins against the AST, and return structured LintResult objects with file path, line, column, rule name, severity, and message. Covers FR-1, FR-2."
+    },
+    "items": [
+      {
+        "id": "1",
+        "title": "LintResult and LintViolation TypeScript types exported from packages/core"
+      },
+      {
+        "id": "2",
+        "title": "lintFile(filePath: string, plugins: Plugin[]): Promise<LintResult> function implemented and exported"
+      },
+      {
+        "id": "3",
+        "title": "lintString(content: string, plugins: Plugin[]): Promise<LintResult> function implemented and exported"
+      },
+      {
+        "id": "4",
+        "title": "remark-gfm included for GitHub Flavored Markdown support"
+      },
+      {
+        "id": "5",
+        "title": "Violations include file, line, column, ruleId, severity ('error'|'warn'), message"
+      },
+      {
+        "id": "6",
+        "title": "Unit tests cover: valid Markdown returns empty violations, a failing rule returns correct position data, GFM tables are parsed without error"
+      },
+      {
+        "id": "7",
+        "title": "task check passes at >= 85% coverage for packages/core"
+      }
+    ],
+    "updated": "2026-04-26T17:26:05Z"
+  }
+}
