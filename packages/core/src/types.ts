@@ -35,3 +35,21 @@ export type Plugin = UnifiedPlugin<any[], any>
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type PluginEntry = Plugin | [Plugin, ...any[]]
+
+/**
+ * A pure string-to-string fixer function. Receives the raw Markdown content
+ * and returns the corrected content. Fixers are applied in order when
+ * {@link lintStringFix} or {@link lintFileFix} is called.
+ */
+export type Fixer = (content: string) => string
+
+/**
+ * The result of a fix pass — extends {@link LintResult} with the corrected
+ * content and a count of violations that were resolved.
+ */
+export interface FixResult extends LintResult {
+  /** The Markdown content after all fixers have been applied. */
+  fixed: string
+  /** Number of violations resolved by fixers (original count minus remaining). */
+  fixedCount: number
+}

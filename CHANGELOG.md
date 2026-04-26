@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+#### Auto-fix support (`@marky/core` + `@marky/cli`)
+- `Fixer` type: `(content: string) => string` — pure string transformer for safe mechanical fixes
+- `FixResult` interface: extends `LintResult` with `fixed: string` and `fixedCount: number`
+- `lintStringFix(content, config?, filename?)` and `lintFileFix(path, config?)` — run fixers then re-lint to surface remaining violations
+- `MarkyConfig.fixers?: Fixer[]` — register fixers alongside plugins in `marky.config.ts`
+- `marky lint --fix` — applies fixers and rewrites files in place; reports per-file fix counts
+- `marky lint --fix --dry-run` — shows what would change without writing to disk
+- Exit code reflects remaining error-severity violations after fixing
+
+#### Bundled rules (`@marky/core`)
+- `md009Rule` + `md009Fixer` — trailing spaces: detect and strip via regex-based line scanner
+- `md010Rule` + `md010Fixer(content, { tabSize? })` — hard tabs: detect and replace with configurable spaces (default: 4)
+
 ## [0.1.0] — 2026-04-26 — Phase 1 MVP
 
 ### Added

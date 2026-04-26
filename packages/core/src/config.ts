@@ -2,7 +2,7 @@ import { stat } from 'node:fs/promises'
 import { dirname, join, parse as parsePath } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { createJiti } from 'jiti'
-import type { PluginEntry, Severity } from './types.js'
+import type { Fixer, PluginEntry, Severity } from './types.js'
 
 /** Severity values accepted in `MarkyConfig.rules`, plus the disabling 'off'. */
 export type RuleSeverity = Severity | 'off'
@@ -23,6 +23,11 @@ export interface MarkyConfig {
    * order after the built-in remark-parse / remark-gfm / remark-lint steps.
    */
   plugins?: PluginEntry[]
+  /**
+   * String-to-string fixer functions applied in order when running in fix mode.
+   * Each fixer receives the full Markdown content and returns the corrected version.
+   */
+  fixers?: Fixer[]
 }
 
 /** Filename marky looks for when resolving a configuration. */
@@ -101,6 +106,14 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
       throw new Error(`Invalid marky.config.ts at ${configPath}: "plugins" must be an array.`)
     }
     config.plugins = plugins as PluginEntry[]
+  }
+
+  if ('fixers' in loaded && loaded.fixers !== undefined) {
+    const fixers = loaded.fixers
+    if (!Array.isArray(fixers)) {
+      throw new Error(`Invalid marky.config.ts at ${configPath}: "fixers" must be an array.`)
+    }
+    config.fixers = fixers as Fixer[]
   }
 
   return config

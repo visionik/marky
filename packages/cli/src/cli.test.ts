@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { mkdtemp, mkdir, writeFile, rm } from 'node:fs/promises'
+import { mkdtemp, mkdir, writeFile, rm, readFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Readable, Writable } from 'node:stream'
@@ -237,5 +237,103 @@ describe('marky lint — integration', () => {
     } finally {
       await rm(dir, { recursive: true, force: true })
     }
+  })
+})
+
+describe('marky lint --fix', () => {
+  it('rewrites file content and exits 0 when all violations are fixed', async () => {
+    const dir = await makeTempDir()
+    try {
+      const file = join(dir, 'dirty.md')
+      await writeFile(file, 'hello   \nworld\n')
+      // Inline plugin + fixer: plugin detects trailing spaces so fixedCount is tracked
+      await writeFile(
+        join(dir, 'marky.config.ts'),
+        `export default {
+  plugins: [
+    () => (_tree, vfile) => {
+      String(vfile).split('\\n').forEach((line, i) => {
+        if (line !== line.trimEnd()) vfile.message('trailing space', { line: i + 1, column: 1 })
+      })
+    },
+  ],
+  fixers: [(c) => c.split('\\n').map(l => l.trimEnd()).join('\\n')],
+}\n`,
+      )
+      const { io, captured } = makeIO()
+      io.cwd = dir
+      const code = await run(['lint', '--fix', file], io)
+      expect(code).toBe(0)
+      const fixed = await readFile(file, 'utf8')
+      expect(fixed).toBe('hello\nworld\n')
+      expect(captured.stdout).toContain('fixed')
+    } finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('--dry-run does not write files but reports what would change', async () => {
+    const dir = await makeTempDir()
+    try {
+      const file = join(dir, 'dirty.md')
+      const original = 'hello   \nworld\n'
+      await writeFile(file, original)
+      await writeFile(
+        join(dir, 'marky.config.ts'),
+        `export default {
+  plugins: [
+    () => (_tree, vfile) => {
+      String(vfile).split('\\n').forEach((line, i) => {
+        if (line !== line.trimEnd()) vfile.message('trailing space', { line: i + 1, column: 1 })
+      })
+    },
+  ],
+  fixers: [(c) => c.split('\\n').map(l => l.trimEnd()).join('\\n')],
+}\n`,
+      )
+      const { io, captured } = makeIO()
+      io.cwd = dir
+      const code = await run(['lint', '--fix', '--dry-run', file], io)
+      expect(code).toBe(0)
+      // File must be unchanged
+      const onDisk = await readFile(file, 'utf8')
+      expect(onDisk).toBe(original)
+      expect(captured.stdout).toContain('would fix')
+    } finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('exits 1 when unfixable error-severity violations remain after fixing', async () => {
+    const dir = await makeTempDir()
+    try {
+      const file = join(dir, 'a.md')
+      await writeFile(file, '# Hello\n')
+      await writeFile(
+        join(dir, 'marky.config.ts'),
+        `export default {
+  plugins: [
+    () => (_tree, file) => {
+      const msg = file.message('unfixable')
+      msg.source = 'test'; msg.ruleId = 'unfixable'
+    },
+  ],
+  rules: { 'test:unfixable': 'error' },
+}\n`,
+      )
+      const { io } = makeIO()
+      io.cwd = dir
+      const code = await run(['lint', '--fix', file], io)
+      expect(code).toBe(1)
+    } finally {
+      await rm(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('errors when stdin is used with --fix', async () => {
+    const { io, captured } = makeIO('# Hello\n')
+    const code = await run(['lint', '--fix', '-'], io)
+    expect(code).toBe(1)
+    expect(captured.stderr).toContain('stdin')
   })
 })

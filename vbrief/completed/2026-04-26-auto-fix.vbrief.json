@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Auto-fix support (--fix flag + remark-stringify)",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Add auto-fix capability to marky. Rules opt in by supplying a `fix` handler that patches the mdast in place; remark-stringify serializes the corrected AST back to disk. The CLI gains a --fix flag. Ships with 3-4 safe mechanical fixers: MD009 trailing spaces, MD010 hard tabs, blank lines around headings (MD022/MD032)."
     },
@@ -44,6 +44,6 @@
         "title": "task check passes at >= 85% coverage"
       }
     ],
-    "updated": "2026-04-26T20:09:57Z"
+    "updated": "2026-04-26T20:45:28Z"
   }
 }

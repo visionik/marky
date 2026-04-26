@@ -1,12 +1,14 @@
-import { readdir, stat } from 'node:fs/promises'
+import { readdir, stat, writeFile } from 'node:fs/promises'
 import { isAbsolute, join, resolve } from 'node:path'
 import { Command, CommanderError, Option } from 'commander'
 import {
   lint,
   lintString,
+  lintFileFix,
   loadConfig,
   loadConfigFromFile,
   type LintResult,
+  type FixResult,
   type MarkyConfig,
 } from '@marky/core'
 import type { Readable, Writable } from 'node:stream'
@@ -28,6 +30,8 @@ export interface RunIO {
 interface LintOptions {
   format: 'pretty' | 'json'
   config?: string
+  fix?: boolean
+  dryRun?: boolean
 }
 
 const VALID_FORMATS = ['pretty', 'json'] as const
@@ -91,6 +95,10 @@ async function runLintAction(
     return 1
   }
 
+  if (opts.fix) {
+    return runFixAction(paths, opts, config, io)
+  }
+
   const inputs = await collectResults(paths, config, io)
   if (inputs === null) return 1
 
@@ -100,6 +108,74 @@ async function runLintAction(
 
   const hasError = inputs.results.some((r) => r.violations.some((v) => v.severity === 'error'))
   return hasError ? 1 : 0
+}
+
+async function runFixAction(
+  paths: string[],
+  opts: LintOptions,
+  config: MarkyConfig,
+  io: Required<Pick<RunIO, 'stdin' | 'stdout' | 'stderr' | 'cwd'>>,
+): Promise<number> {
+  // stdin is not supported in fix mode
+  if (paths.includes('-')) {
+    io.stderr.write('error: --fix cannot be used with stdin\n')
+    return 1
+  }
+
+  const files: string[] = []
+  for (const p of paths) {
+    files.push(...(await expandPath(p, io.cwd)))
+  }
+
+  const fixResults: FixResult[] = []
+  for (const file of files) {
+    fixResults.push(await lintFileFix(file, config))
+  }
+
+  const totalFixed = fixResults.reduce((sum, r) => sum + r.fixedCount, 0)
+  const dryRun = opts.dryRun ?? false
+
+  if (!dryRun) {
+    for (const r of fixResults) {
+      if (r.fixed !== '') {
+        await writeFile(r.file, r.fixed, 'utf8')
+      }
+    }
+  }
+
+  // Report per-file fix summary
+  for (const r of fixResults) {
+    if (r.fixedCount > 0 || r.violations.length > 0) {
+      io.stdout.write(`${r.file}\n`)
+      if (r.fixedCount > 0) {
+        const noun = r.fixedCount === 1 ? 'violation' : 'violations'
+        const verb = dryRun ? 'would fix' : 'fixed'
+        io.stdout.write(`  ${verb} ${r.fixedCount} ${noun}\n`)
+      }
+      for (const v of r.violations) {
+        io.stdout.write(`  ${v.line}:${v.column}  ${v.severity}  ${v.ruleId}  ${v.message}\n`)
+      }
+    }
+  }
+
+  // Summary line
+  const remainingErrors = fixResults.flatMap((r) =>
+    r.violations.filter((v) => v.severity === 'error'),
+  ).length
+  if (totalFixed > 0 || remainingErrors > 0) {
+    const fixedMsg =
+      totalFixed > 0
+        ? `${dryRun ? 'Would fix' : 'Fixed'} ${totalFixed} ${totalFixed === 1 ? 'violation' : 'violations'}`
+        : ''
+    const remainMsg =
+      remainingErrors > 0
+        ? `${remainingErrors} ${remainingErrors === 1 ? 'error' : 'errors'} remain`
+        : ''
+    const summary = [fixedMsg, remainMsg].filter(Boolean).join('. ')
+    io.stdout.write(`\n${summary}.\n`)
+  }
+
+  return remainingErrors > 0 ? 1 : 0
 }
 
 async function collectResults(
@@ -163,6 +239,8 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
         .default('pretty'),
     )
     .option('-c, --config <path>', 'explicit path to marky.config.ts')
+    .option('--fix', 'apply auto-fixers and rewrite files in place')
+    .option('--dry-run', 'with --fix, show what would change without writing')
     .action(async (paths: string[], opts: LintOptions) => {
       actionExitCode = await runLintAction(paths, opts, ioFull)
     })
