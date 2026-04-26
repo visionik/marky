@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Config system (marky.config.ts)",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Implement config loading from marky.config.ts (TypeScript-first). The config file exports a MarkyConfig object defining which rules are enabled, their severity, and which plugins to load. Config is resolved relative to the working directory at lint time. Covers FR-4."
     },
@@ -36,6 +36,6 @@
         "title": "task check passes at >= 85% coverage for config module"
       }
     ],
-    "updated": "2026-04-26T17:17:16Z"
+    "updated": "2026-04-26T18:39:22Z"
   }
 }

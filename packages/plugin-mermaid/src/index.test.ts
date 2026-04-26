@@ -16,7 +16,7 @@ describe('@marky/plugin-mermaid exports', () => {
 describe('remarkLintMermaid — code block visiting', () => {
   it('produces zero violations for a valid flowchart block', async () => {
     const md = ['```mermaid', 'flowchart TD', '  A --> B', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
@@ -24,31 +24,31 @@ describe('remarkLintMermaid — code block visiting', () => {
     const md = ['```mermaid', 'pie title Pets', '  "Dogs" : 386', '  "Cats" : 85', '```', ''].join(
       '\n',
     )
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
   it('ignores non-mermaid code blocks (different lang)', async () => {
     const md = ['```js', 'const x = "not mermaid"', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
   it('ignores fenced code blocks with no language', async () => {
     const md = ['```', 'plain text', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
   it('handles empty mermaid block gracefully (zero violations)', async () => {
     const md = ['```mermaid', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
   it('handles whitespace-only mermaid block gracefully', async () => {
     const md = ['```mermaid', '   ', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 
@@ -56,7 +56,7 @@ describe('remarkLintMermaid — code block visiting', () => {
     // sequenceDiagram is a real Mermaid type but unsupported by the v1 parser;
     // the plugin must not falsely report violations for these.
     const md = ['```mermaid', 'sequenceDiagram', '  Alice->>Bob: Hi', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(0)
   })
 })
@@ -72,7 +72,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
       '```',
       '',
     ].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations.length).toBeGreaterThanOrEqual(1)
     const v = result.violations[0]
     expect(v).toBeDefined()
@@ -85,7 +85,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
 
   it('reports a violation for invalid info syntax', async () => {
     const md = ['```mermaid', 'info', '  ??? this is junk ???', '```', ''].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations.length).toBeGreaterThanOrEqual(1)
     expect(result.violations[0]?.ruleId).toBe('marky:mermaid-syntax')
   })
@@ -103,7 +103,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
       '```',
       '',
     ].join('\n')
-    const result = await lintString(md, [remarkLintMermaid])
+    const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(1)
     expect(result.violations[0]?.ruleId).toBe('marky:mermaid-syntax')
     // Second code block opens on line 6.
