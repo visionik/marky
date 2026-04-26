@@ -1,0 +1,89 @@
+---
+title: Getting Started
+description: Install marky and lint your first Markdown file in under 60 seconds.
+---
+
+import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
+
+## Installation
+
+<Tabs>
+  <TabItem label="pnpm">
+    ```sh
+    pnpm add -D @marky/core @marky/cli
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npm install --save-dev @marky/core @marky/cli
+    ```
+  </TabItem>
+</Tabs>
+
+## 60-second usage
+
+<Steps>
+
+1. **Lint a file**
+
+   ```sh
+   npx marky lint README.md
+   ```
+
+   Output:
+
+   ```
+   README.md
+     12:1  warn  marky:no-trailing-spaces  MD009: Trailing spaces found
+   ```
+
+2. **Auto-fix mechanical issues**
+
+   ```sh
+   npx marky lint --fix README.md
+   ```
+
+3. **Add a `marky.config.ts` for custom rules**
+
+   ```ts
+   // marky.config.ts
+   import { md013Rule, md041Rule } from '@marky/compat-markdownlint'
+   import { remarkLintMermaid } from '@marky/plugin-mermaid'
+   import type { MarkyConfig } from '@marky/core'
+
+   const config: MarkyConfig = {
+     plugins: [
+       md013Rule,        // line-length (default 80 chars)
+       md041Rule,        // first-line must be a heading
+       remarkLintMermaid // validate mermaid code blocks
+     ],
+     fixers: [],         // add md009Fixer, md010Fixer etc. here
+   }
+
+   export default config
+   ```
+
+4. **Run on your whole project**
+
+   ```sh
+   npx marky lint docs/
+   ```
+
+</Steps>
+
+## Available packages
+
+| Package | Purpose |
+|---|---|
+| `@marky/core` | Core pipeline, programmatic API (`lintString`, `lint`, `lintStringFix`) |
+| `@marky/cli` | CLI (`marky lint`, `marky migrate`, `marky lsp`) |
+| `@marky/plugin-mermaid` | First-class Mermaid diagram validation |
+| `@marky/compat-markdownlint` | markdownlint rule shims (MD001, MD009, MD010, MD013, MD022, MD041) |
+| `@marky/lsp` | Language Server for editor integration (Neovim, Zed, Helix) |
+| `@marky/vscode` | VS Code extension |
+
+## Next steps
+
+- Read the [CLI Reference](/marky/cli-reference/) for all commands and flags.
+- Learn how to [write your own plugin](/marky/plugin-guide/).
+- Migrating from markdownlint? See the [Migration Guide](/marky/migration/).

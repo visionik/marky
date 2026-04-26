@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "Documentation site (Astro Starlight)",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Build the marky documentation site using Astro Starlight. Covers getting started, CLI reference, plugin authoring guide, API reference (TypeDoc), and the markdownlint migration guide. Can begin after auto-fix stabilises the core API."
     },
@@ -48,6 +48,6 @@
         "title": "Deployed to fly.io or GitHub Pages via CI on push to main"
       }
     ],
-    "updated": "2026-04-26T20:09:57Z"
+    "updated": "2026-04-26T21:13:08Z"
   }
 }

@@ -1,0 +1,160 @@
+---
+title: Plugin Authoring Guide
+description: How to write a custom marky lint rule using unified-lint-rule and register it in marky.config.ts.
+---
+
+import { Steps, Aside } from '@astrojs/starlight/components'
+
+marky rules are [unified/remark plugins](https://unifiedjs.com/). Any plugin that calls `file.message()` on a VFile is a valid marky rule.
+
+## Anatomy of a rule
+
+```ts
+// my-rule.ts
+import { lintRule } from 'unified-lint-rule'
+import type { Root } from 'mdast'
+import { visit } from 'unist-util-visit'
+
+export const myRule = lintRule(
+  { origin: 'my-plugin:my-rule', url: 'https://example.com/docs/my-rule' },
+  (tree: Root, file) => {
+    visit(tree, 'heading', (node) => {
+      // Report a violation on every H1 heading
+      if (node.depth === 1) {
+        file.message('My rule fires on H1 headings', node.position)
+      }
+    })
+  },
+)
+```
+
+Key parts:
+
+- **`origin`** — `namespace:rule-name`. marky surfaces this as `ruleId` in violations (e.g. `my-plugin:my-rule`).
+- **`url`** — optional link to documentation for this rule.
+- **`tree: Root`** — the mdast root. Use `unist-util-visit` to traverse nodes.
+- **`file`** — a VFile. Call `file.message(message, position?)` to report a warning. Use `file.fail()` for a fatal error (stops processing).
+
+## Register the rule
+
+```ts
+// marky.config.ts
+import { myRule } from './my-rule.js'
+import type { MarkyConfig } from '@marky/core'
+
+const config: MarkyConfig = {
+  plugins: [myRule],
+}
+
+export default config
+```
+
+## Rule options (via plugin tuple)
+
+marky supports the unified `[plugin, options]` tuple convention:
+
+```ts
+// my-configurable-rule.ts
+import { lintRule } from 'unified-lint-rule'
+import type { Root } from 'mdast'
+
+export interface MyRuleOptions {
+  maxLevel?: number
+}
+
+export const myRule = lintRule<Root, MyRuleOptions>(
+  { origin: 'my-plugin:my-rule' },
+  (tree, file, options) => {
+    const max = options?.maxLevel ?? 2
+    // ...
+  },
+)
+```
+
+Register with options:
+
+```ts
+// marky.config.ts
+import type { MarkyConfig } from '@marky/core'
+import { myRule } from './my-configurable-rule.js'
+
+const config: MarkyConfig = {
+  plugins: [
+    [myRule, { maxLevel: 3 }],  // [plugin, options] tuple
+  ],
+}
+
+export default config
+```
+
+## Writing an auto-fixer
+
+A `Fixer` is a pure `(content: string) => string` function. Register it in `config.fixers`:
+
+```ts
+// marky.config.ts
+import type { MarkyConfig, Fixer } from '@marky/core'
+import { myRule } from './my-rule.js'
+
+const myFixer: Fixer = (content) => {
+  // Remove all H1 headings (contrived example)
+  return content.replace(/^# .+$/gm, '')
+}
+
+const config: MarkyConfig = {
+  plugins: [myRule],
+  fixers: [myFixer],
+}
+
+export default config
+```
+
+When `marky lint --fix` runs:
+1. Lint the original content → count violations.
+2. Apply each fixer in order.
+3. Re-lint the fixed content → report remaining violations and `fixedCount`.
+
+## Available node types
+
+marky uses the full [mdast](https://github.com/syntax-tree/mdast) specification. Common node types:
+
+| Node type | Description |
+|---|---|
+| `heading` | `# H1`, `## H2`, etc. Has `depth: 1–6` |
+| `paragraph` | Body text |
+| `code` | Fenced or indented code block. Has `lang` property |
+| `inlineCode` | \`backtick\` text |
+| `link` | `[text](url)` |
+| `image` | `![alt](src)` |
+| `list` | Ordered or unordered list |
+| `listItem` | A single list item |
+| `blockquote` | `> quote` |
+| `thematicBreak` | `---` horizontal rule |
+
+<Aside type="tip">
+  Use the [AST Explorer](https://astexplorer.net/) with the `remark` parser to
+  inspect the mdast for any Markdown input.
+</Aside>
+
+## Testing your rule
+
+Use `lintString` from `@marky/core` to test rules without the CLI:
+
+```ts
+import { describe, it, expect } from 'vitest'
+import { lintString } from '@marky/core'
+import { myRule } from './my-rule.js'
+
+describe('myRule', () => {
+  it('fires on H1 headings', async () => {
+    const result = await lintString('# Heading\n', { plugins: [myRule] })
+    expect(result.violations).toHaveLength(1)
+    expect(result.violations[0]?.ruleId).toBe('my-plugin:my-rule')
+  })
+
+  it('does not fire on H2+', async () => {
+    const result = await lintString('## Section\n', { plugins: [myRule] })
+    expect(result.violations).toHaveLength(0)
+  })
+})
+```

@@ -40,3 +40,15 @@ tasks:
   clean:
     desc: Remove all build artifacts
     cmd: pnpm -r --if-present clean
+
+  docs:dev:
+    desc: Start the docs dev server (Astro Starlight)
+    cmd: pnpm -C docs dev
+
+  docs:build:
+    desc: Build the static docs site
+    cmd: pnpm -C docs build
+
+  docs:preview:
+    desc: Preview the built docs site locally
+    cmd: pnpm -C docs preview

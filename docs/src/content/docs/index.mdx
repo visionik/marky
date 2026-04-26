@@ -1,0 +1,38 @@
+---
+title: marky
+description: An extensible, plugin-based Markdown linter with first-class Mermaid diagram validation.
+template: splash
+hero:
+  tagline: Fast, extensible Markdown linting with first-class Mermaid diagram validation.
+  actions:
+    - text: Get started
+      link: /marky/getting-started/
+      icon: right-arrow
+      variant: primary
+    - text: View on GitHub
+      link: https://github.com/visionik/marky
+      icon: external
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## Why marky?
+
+<CardGrid stagger>
+  <Card title="Mermaid-first" icon="pencil">
+    Validates `lang=mermaid` code blocks via `@mermaid-js/parser`. Diagram
+    syntax errors surface inline, before they reach your docs site.
+  </Card>
+  <Card title="Built on unified/remark" icon="add-document">
+    Uses the mdast AST pipeline — position-aware, composable, and compatible
+    with 300+ existing remark plugins.
+  </Card>
+  <Card title="markdownlint compatible" icon="setting">
+    Drop-in bridge for `.markdownlintrc` configs. Run `marky migrate` to
+    generate a `marky.config.ts` from your existing setup in seconds.
+  </Card>
+  <Card title="Auto-fix built in" icon="open-book">
+    `marky lint --fix` applies safe mechanical fixers (trailing spaces, hard
+    tabs). `--dry-run` shows what would change without touching files.
+  </Card>
+</CardGrid>

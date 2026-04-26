@@ -1,0 +1,129 @@
+---
+title: Architecture
+description: How marky's mdast lint pipeline works under the hood.
+---
+
+import { Aside } from '@astrojs/starlight/components'
+
+## The lint pipeline
+
+marky is built on the [unified](https://unifiedjs.com/) ecosystem. Every lint pass follows the same five-step pipeline:
+
+```
+Markdown source
+      │
+      ▼
+┌─────────────────────────────────────────────────────────┐
+│  1. PARSE  (remark-parse + micromark + remark-gfm)      │
+│     Markdown text → mdast (Markdown Abstract Syntax     │
+│     Tree). Position information is preserved on every   │
+│     node, enabling precise line:column reporting.       │
+└──────────────────────────┬──────────────────────────────┘
+                           │  mdast (Root node)
+                           ▼
+┌─────────────────────────────────────────────────────────┐
+│  2. TRANSFORM  (remark-lint + plugins)                  │
+│     Each lint rule is a unified transformer. It         │
+│     traverses the mdast via unist-util-visit and calls  │
+│     file.message() to record violations. Rules run      │
+│     in the order they were registered.                  │
+└──────────────────────────┬──────────────────────────────┘
+                           │  VFile with messages[]
+                           ▼
+┌─────────────────────────────────────────────────────────┐
+│  3. COLLECT  (lintString / lintFile)                    │
+│     VFile.messages are mapped to LintViolation objects: │
+│     { ruleId, message, line, column, severity }.        │
+│     config.rules severity overrides are applied here.   │
+└──────────────────────────┬──────────────────────────────┘
+                           │  LintResult
+                           ▼
+┌─────────────────────────────────────────────────────────┐
+│  4. FIX  (optional — lintStringFix / --fix)             │
+│     config.fixers are applied sequentially as pure      │
+│     string-to-string transformers. The pipeline re-runs │
+│     steps 1–3 on the fixed content to surface any       │
+│     remaining violations.                               │
+└──────────────────────────┬──────────────────────────────┘
+                           │  FixResult
+                           ▼
+┌─────────────────────────────────────────────────────────┐
+│  5. REPORT  (reporters or programmatic API)             │
+│     Pretty terminal reporter, JSON reporter, or raw     │
+│     LintResult / FixResult objects for library use.     │
+│     LSP server publishes textDocument/publishDiagnostics│
+└─────────────────────────────────────────────────────────┘
+```
+
+## Package layout
+
+```
+marky/
+  packages/
+    core/               @marky/core
+    │ ├─ lint.ts        lintString, lintFile
+    │ ├─ fix.ts         lintStringFix, lintFileFix
+    │ ├─ config.ts      loadConfig (jiti-based marky.config.ts loader)
+    │ ├─ api.ts         lint() — multi-file programmatic API
+    │ └─ rules/
+    │    ├─ md009.ts    trailing spaces
+    │    └─ md010.ts    hard tabs
+    │
+    cli/                @marky/cli
+    │ ├─ cli.ts         marky lint / marky lsp / marky migrate
+    │ ├─ migrate.ts     marky migrate (markdownlint → marky.config.ts)
+    │ └─ reporters/
+    │    ├─ pretty.ts   terminal output
+    │    └─ json.ts     JSON output
+    │
+    plugin-mermaid/     @marky/plugin-mermaid
+    │ └─ index.ts       remarkLintMermaid (@mermaid-js/parser)
+    │
+    compat-markdownlint/ @marky/compat-markdownlint
+    │ ├─ compat.ts      loadMarkdownlintConfig
+    │ └─ rules/
+    │    ├─ md001.ts    heading-increment
+    │    ├─ md013.ts    line-length
+    │    ├─ md022.ts    blanks-around-headings
+    │    └─ md041.ts    first-line-heading
+    │
+    lsp/                @marky/lsp
+    │ ├─ convert.ts     LintViolation → LSP Diagnostic
+    │ ├─ validate.ts    validateMarkdown
+    │ └─ server.ts      createServer (TextDocuments, debounce, codeAction)
+    │
+    vscode/             @marky/vscode
+      └─ extension.ts   VS Code extension (LanguageClient → @marky/lsp)
+```
+
+## Config loading
+
+`marky.config.ts` is loaded at runtime using [jiti](https://github.com/unjs/jiti), which evaluates TypeScript without a compilation step. Config discovery walks up the directory tree from the linted file's location until it finds a `marky.config.ts` or reaches the filesystem root.
+
+<Aside type="note">
+  Config is cached per workspace root. The LSP server additionally watches
+  `marky.config.ts` for changes and invalidates the cache automatically.
+</Aside>
+
+## Mermaid validation
+
+The `@marky/plugin-mermaid` plugin takes a different approach from the text-based rules: it passes the raw content of each `mermaid` code block to `@mermaid-js/parser`, which uses a Langium-based grammar for accurate syntax validation.
+
+Diagram type is detected from the first non-empty token (e.g. `flowchart`, `pie`, `gitGraph`). Types not supported by the v1 parser (e.g. `sequenceDiagram`, `classDiagram`) are skipped gracefully — no false positives.
+
+## LSP architecture
+
+```
+Editor (VS Code, Neovim, Zed…)
+        │  LSP protocol (JSON-RPC over stdio)
+        ▼
+  @marky/lsp server
+   ├─ TextDocuments manager    ← tracks open files
+   ├─ Config cache             ← loadConfig() per workspace root
+   ├─ fs.watch watcher         ← hot-reload marky.config.ts
+   ├─ Debounce timer (300ms)   ← onDidChange validation
+   └─ validateMarkdown()       ← @marky/core lintString
+        │  Diagnostic[]
+        ▼
+  textDocument/publishDiagnostics  → inline squiggles in editor
+```

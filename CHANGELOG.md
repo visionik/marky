@@ -22,7 +22,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `md009Rule` + `md009Fixer` — trailing spaces: detect and strip via regex-based line scanner
 - `md010Rule` + `md010Fixer(content, { tabSize? })` — hard tabs: detect and replace with configurable spaces (default: 4)
 
-#### LSP server + VS Code extension (`@marky/lsp` + `@marky/vscode`)
+#### Documentation site (`docs/`)
+- Astro Starlight site at `docs/` — 8 pages built, Pagefind search, sitemap
+- Landing page with feature cards (splash template)
+- Getting Started: install, 60-second usage, `marky.config.ts` example, package table
+- CLI Reference: all commands (`lint`, `migrate`, `lsp`), flags, exit codes, examples
+- Plugin Authoring Guide: rule anatomy, options tuples, fixers, node types, testing
+- API Reference: all `@marky/core` types (`MarkyConfig`, `LintResult`, `LintViolation`, `FixResult`, `Fixer`, `PluginEntry`) and functions
+- markdownlint Migration Guide: automatic migration, rule mapping table, manual setup, severity config
+- Architecture page: 5-step ASCII pipeline diagram, package layout, LSP architecture
+- `task docs:dev`, `task docs:build`, `task docs:preview` targets added to root `Taskfile.yml`
+- GitHub Pages CI workflow (`.github/workflows/docs.yml`): deploys on push to `main`
+- Deployment URL: `https://visionik.github.io/marky/`
+
+#### LSP server + VS Code extension
 - `@marky/lsp` package — LSP server using `vscode-languageserver`
 - `violationToDiagnostic` / `lintResultToDiagnostics` — pure mapping: 1-to-0-indexed positions, severity, source
 - `validateMarkdown(content, uri, config)` — runs `lintString` and returns LSP `Diagnostic[]`
