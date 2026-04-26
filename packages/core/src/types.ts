@@ -28,3 +28,10 @@ export interface LintResult {
 /** A unified/remark plugin that can be used as a marky lint rule. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Plugin = UnifiedPlugin<any[], any>
+
+/**
+ * A plugin entry as it appears in {@link MarkyConfig.plugins}.
+ * Either a bare plugin or a `[plugin, options]` tuple (unified convention).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PluginEntry = Plugin | [Plugin, ...any[]]

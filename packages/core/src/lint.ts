@@ -5,7 +5,7 @@ import remarkGfm from 'remark-gfm'
 import { VFile } from 'vfile'
 import { readFile } from 'node:fs/promises'
 import type { MarkyConfig, RuleSeverity } from './config.js'
-import type { LintResult, LintViolation } from './types.js'
+import type { LintResult, LintViolation, Plugin } from './types.js'
 
 function applyRuleConfig(
   violations: LintViolation[],
@@ -46,8 +46,13 @@ export async function lintString(
 ): Promise<LintResult> {
   const processor = unified().use(remarkParse).use(remarkGfm).use(remarkLint)
 
-  for (const plugin of config.plugins ?? []) {
-    processor.use(plugin)
+  for (const entry of config.plugins ?? []) {
+    if (Array.isArray(entry)) {
+      const [plugin, ...args] = entry as [Plugin, ...unknown[]]
+      processor.use(plugin, ...args)
+    } else {
+      processor.use(entry)
+    }
   }
 
   const vfile = new VFile({ value: content, path: filename })
