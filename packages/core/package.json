@@ -18,6 +18,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
+    "jiti": "^2.6.1",
     "remark-gfm": "^4.0.1",
     "remark-lint": "^10.0.1",
     "remark-parse": "^11.0.0",

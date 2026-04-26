@@ -6,7 +6,7 @@
   },
   "plan": {
     "title": "CLI entry point and reporters",
-    "status": "pending",
+    "status": "completed",
     "narratives": {
       "Overview": "Implement the marky CLI using commander.js with a lint subcommand. Accepts file globs, directories, or stdin. Supports --format (pretty|json) and --config flags. Exits non-zero on any error-severity violation. Includes a pretty terminal reporter (chalk + figures) and a JSON reporter. Covers FR-6, FR-7."
     },
@@ -48,6 +48,6 @@
         "title": "task check passes at >= 85% coverage for CLI module"
       }
     ],
-    "updated": "2026-04-26T17:17:16Z"
+    "updated": "2026-04-26T18:49:22Z"
   }
 }
