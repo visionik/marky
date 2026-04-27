@@ -63,3 +63,11 @@ tasks:
   docs:preview:
     desc: Preview the built docs site locally
     cmd: pnpm -C docs preview
+
+  release:
+    desc: "Bump version, update CHANGELOG, tag, and push. Usage: task release -- <major|minor|patch>"
+    requires:
+      vars: [CLI_ARGS]
+    cmds:
+      - task check
+      - node scripts/release.mjs {{.CLI_ARGS}}
