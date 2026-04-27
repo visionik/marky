@@ -106,4 +106,3 @@ Lower the migration barrier from markdownlint. Adds `marky migrate <config>` CLI
 - Monorepo scaffold and toolchain -- `[completed]`
 - Mermaid validation plugin (packages/plugin-mermaid) -- `[completed]`
 - Programmatic Node.js API -- `[completed]`
-

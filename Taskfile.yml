@@ -33,6 +33,17 @@ tasks:
     desc: Check formatting (no writes)
     cmd: pnpm prettier --check 'packages/*/src/**/*.ts'
 
+  lint:docs:
+    desc: Lint all Markdown files in the repository with marky
+    cmd: |
+      node packages/cli/dist/bin.js lint \
+        .github/PULL_REQUEST_TEMPLATE.md \
+        agents.md \
+        CHANGELOG.md \
+        packages/compat-markdownlint/README.md \
+        packages/core/README.md \
+        ROADMAP.md
+
   check:
     desc: Run all pre-commit checks (fmt:check, lint, typecheck, test:coverage)
     deps: [fmt:check, lint, typecheck, test:coverage]
