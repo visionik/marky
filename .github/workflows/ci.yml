@@ -13,7 +13,7 @@ concurrency:
 jobs:
   check:
     name: check (Node ${{ matrix.node-version }})
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     strategy:
       matrix:
         node-version: ['20', '22', '24']
@@ -53,3 +53,34 @@ jobs:
           name: coverage
           path: coverage/
           retention-days: 7
+
+  lint-markdown:
+    name: lint markdown
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: '3.x'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build all packages
+        run: pnpm -r build
+
+      - name: Lint Markdown with crackdown
+        run: task lint:docs
