@@ -10,7 +10,7 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import { watch, type FSWatcher } from 'node:fs'
 import { join } from 'node:path'
-import { loadConfig, type MarkyConfig } from '@crackdown/core'
+import { loadConfig, lintStringFix, type MarkyConfig } from '@crackdown/core'
 import { validateMarkdown, workspaceRootFromUri } from './validate.js'
 
 /** Debounce delay for as-you-type validation (ms). */
@@ -124,24 +124,46 @@ export function createServer(connection: Connection): () => void {
     debounceTimers.delete(document.uri)
   })
 
-  // codeAction provider: placeholder — actual quick-fix actions depend on
-  // the fixers registered in crackdown.config.ts and are resolved at action time.
-  connection.onCodeAction((params): (CodeAction | Command)[] => {
-    // For each error/warning in the requested range, offer a generic
-    // "Run marky --fix" action. Full per-rule fixers will be wired in
-    // a follow-up when the fix protocol matures.
-    const actions: CodeAction[] = []
-    for (const diag of params.context.diagnostics) {
-      actions.push({
-        title: `crackdown: fix '${diag.source ?? 'violation'}'`,
-        kind: CodeActionKind.QuickFix,
-        diagnostics: [diag],
-        isPreferred: false,
-        // Actual workspace edits will be populated when fix transformers
-        // are exposed via the @crackdown/core programmatic API.
-      })
+  // codeAction provider — applies all registered fixers as a single
+  // "Fix all fixable issues" action backed by a real WorkspaceEdit.
+  connection.onCodeAction(async (params): Promise<(CodeAction | Command)[]> => {
+    if (params.context.diagnostics.length === 0) return []
+
+    const doc = documents.get(params.textDocument.uri)
+    if (!doc) return []
+
+    const root = workspaceRootFromUri(doc.uri)
+    const config = await getConfig(root)
+
+    // Only offer a fix action when fixers are actually configured.
+    if (!config.fixers || config.fixers.length === 0) return []
+
+    const content = doc.getText()
+    const fixResult = await lintStringFix(content, config, doc.uri)
+
+    // Nothing to fix — don't offer the action.
+    if (fixResult.fixedCount === 0 || fixResult.fixed === content) return []
+
+    // Replace the entire document with the fixed content.
+    const fullRange = {
+      start: doc.positionAt(0),
+      end: doc.positionAt(content.length),
     }
-    return actions
+
+    const noun = fixResult.fixedCount === 1 ? 'issue' : 'issues'
+    return [
+      {
+        title: `crackdown: fix all fixable ${noun} (${fixResult.fixedCount} fixed)`,
+        kind: CodeActionKind.QuickFix,
+        diagnostics: params.context.diagnostics,
+        isPreferred: true,
+        edit: {
+          changes: {
+            [params.textDocument.uri]: [{ range: fullRange, newText: fixResult.fixed }],
+          },
+        },
+      },
+    ]
   })
 
   documents.listen(connection)
