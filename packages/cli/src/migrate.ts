@@ -40,6 +40,22 @@ const SUPPORTED_RULES: ReadonlyMap<
     },
   ],
   [
+    'MD005',
+    {
+      symbol: 'md005Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Consistent list indentation at the same level',
+    },
+  ],
+  [
+    'MD007',
+    {
+      symbol: 'md007Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Unordered list indentation (default: 2 spaces per level)',
+    },
+  ],
+  [
     'MD012',
     {
       symbol: 'md012Rule',
@@ -53,6 +69,14 @@ const SUPPORTED_RULES: ReadonlyMap<
       symbol: 'md022Rule',
       source: '@marky/compat-markdownlint',
       description: 'Blank lines around headings',
+    },
+  ],
+  [
+    'MD024',
+    {
+      symbol: 'md024Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'No duplicate heading content',
     },
   ],
   [
@@ -93,6 +117,14 @@ const SUPPORTED_RULES: ReadonlyMap<
       symbol: 'md033Rule',
       source: '@marky/compat-markdownlint',
       description: 'No inline HTML',
+    },
+  ],
+  [
+    'MD034',
+    {
+      symbol: 'md034Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'No bare URLs (use angle brackets or [text](url))',
     },
   ],
   [

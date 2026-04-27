@@ -43,10 +43,12 @@ const result = await lintString(content, {
 | MD040 (fenced-code-language) | ✅ Supported | `md040Rule` |
 | MD041 (first-line-heading) | ✅ Supported | `md041Rule` |
 | MD047 (single-trailing-newline) | ✅ Supported | `md047Rule` + `md047Fixer` |
-| MD005 (list-indent) | ❌ Not yet implemented | — |
-| MD007 (unordered-list-style) | ❌ Not yet implemented | — |
-| MD024 (no-duplicate-headings) | ❌ Not yet implemented | — |
-| MD034 (no-bare-urls) | ❌ Not yet implemented | — |
+| MD005 (list-indent) | ✅ Supported | `md005Rule` |
+| MD007 (unordered-list-indent) | ✅ Supported | `md007Rule` (configurable `indent`, default: 2) |
+| MD024 (no-duplicate-headings) | ✅ Supported | `md024Rule` |
+| MD034 (no-bare-urls) | ✅ Supported | `md034Rule` |
+| MD003 (heading-style) | ❌ Not yet implemented | — |
+| MD036 (no-emphasis-as-heading) | ❌ Not yet implemented | — |
 
 ## Config file format
 
