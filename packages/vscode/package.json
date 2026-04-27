@@ -18,8 +18,5 @@
   "devDependencies": {
     "@types/node": "*",
     "@types/vscode": "^1.80.0"
-  },
-  "peerDependencies": {
-    "vscode": "*"
   }
 }
