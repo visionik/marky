@@ -8,7 +8,7 @@
  *   1. Validates the bump type and working tree is clean.
  *   2. Reads the current version from packages/core/package.json.
  *   3. Computes the next version.
- *   4. Updates version in all publishable packages/*/package.json.
+ *   4. Updates version in all publishable packages/{name}/package.json.
  *   5. Stamps [Unreleased] → [x.y.z] — YYYY-MM-DD in CHANGELOG.md.
  *   6. Commits, tags v<version>, and pushes both commit and tag.
  */
