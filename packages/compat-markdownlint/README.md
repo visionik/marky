@@ -29,16 +29,24 @@ const result = await lintString(content, {
 
 | markdownlint rule | Status | marky equivalent |
 |---|---|---|
-| MD001 (heading-increment) | ✅ Supported | `md001Rule` from `@marky/compat-markdownlint` |
-| MD009 (trailing-spaces) | ✅ Supported | `md009Rule` from `@marky/core` |
-| MD010 (no-hard-tabs) | ✅ Supported | `md010Rule` from `@marky/core` |
+| MD001 (heading-increment) | ✅ Supported | `md001Rule` |
+| MD009 (trailing-spaces) | ✅ Supported | `md009Rule` from `@marky/core` + `md009Fixer` |
+| MD010 (no-hard-tabs) | ✅ Supported | `md010Rule` from `@marky/core` + `md010Fixer` |
+| MD012 (multiple-blank-lines) | ✅ Supported | `md012Rule` + `md012Fixer` (collapse) |
 | MD013 (line-length) | ✅ Supported | `md013Rule` (default: 80 chars) |
-| MD022 (blanks-around-headings) | ✅ Supported | `md022Rule` from `@marky/compat-markdownlint` |
+| MD022 (blanks-around-headings) | ✅ Supported | `md022Rule` |
+| MD025 (single-top-level-heading) | ✅ Supported | `md025Rule` |
+| MD026 (trailing-punctuation) | ✅ Supported | `md026Rule` |
+| MD031 (blanks-around-fences) | ✅ Supported | `md031Rule` |
+| MD032 (blanks-around-lists) | ✅ Supported | `md032Rule` |
+| MD033 (no-inline-html) | ✅ Supported | `md033Rule` |
+| MD040 (fenced-code-language) | ✅ Supported | `md040Rule` |
 | MD041 (first-line-heading) | ✅ Supported | `md041Rule` |
+| MD047 (single-trailing-newline) | ✅ Supported | `md047Rule` + `md047Fixer` |
 | MD005 (list-indent) | ❌ Not yet implemented | — |
 | MD007 (unordered-list-style) | ❌ Not yet implemented | — |
-| MD031 (fenced-code-blocks) | ❌ Not yet implemented | — |
-| MD032 (list-surrounded-blanks) | ❌ Not yet implemented | — |
+| MD024 (no-duplicate-headings) | ❌ Not yet implemented | — |
+| MD034 (no-bare-urls) | ❌ Not yet implemented | — |
 
 ## Config file format
 

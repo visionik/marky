@@ -40,6 +40,14 @@ const SUPPORTED_RULES: ReadonlyMap<
     },
   ],
   [
+    'MD012',
+    {
+      symbol: 'md012Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Multiple consecutive blank lines',
+    },
+  ],
+  [
     'MD022',
     {
       symbol: 'md022Rule',
@@ -48,11 +56,67 @@ const SUPPORTED_RULES: ReadonlyMap<
     },
   ],
   [
+    'MD025',
+    {
+      symbol: 'md025Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Single top-level heading per document',
+    },
+  ],
+  [
+    'MD026',
+    {
+      symbol: 'md026Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'No trailing punctuation in headings',
+    },
+  ],
+  [
+    'MD031',
+    {
+      symbol: 'md031Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Blank lines around fenced code blocks',
+    },
+  ],
+  [
+    'MD032',
+    {
+      symbol: 'md032Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Blank lines around lists',
+    },
+  ],
+  [
+    'MD033',
+    {
+      symbol: 'md033Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'No inline HTML',
+    },
+  ],
+  [
+    'MD040',
+    {
+      symbol: 'md040Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Fenced code blocks should have a language',
+    },
+  ],
+  [
     'MD041',
     {
       symbol: 'md041Rule',
       source: '@marky/compat-markdownlint',
       description: 'First line heading',
+    },
+  ],
+  [
+    'MD047',
+    {
+      symbol: 'md047Rule',
+      source: '@marky/compat-markdownlint',
+      description: 'Files should end with a single newline',
     },
   ],
 ])

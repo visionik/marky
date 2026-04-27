@@ -19,7 +19,6 @@ let client: LanguageClient | undefined
 function resolveLspBin(): string {
   // In a bundled CJS VS Code extension, __dirname is the dist/ folder.
   // @marky/lsp is a workspace sibling resolved via the package's node_modules.
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const lspPkg = (require as NodeRequire).resolve('@marky/lsp/package.json') as string
   const lspDir = path.dirname(lspPkg)
   return path.join(lspDir, 'dist', 'bin.js')
