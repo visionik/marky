@@ -1,5 +1,5 @@
 import chalk from 'chalk'
-import type { LintResult, Severity } from '@marky/core'
+import type { LintResult, Severity } from '@crackdown/core'
 
 const SEVERITY_ICON: Record<Severity, string> = {
   error: '✖',

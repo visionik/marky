@@ -14,7 +14,7 @@ import { visit } from 'unist-util-visit'
  * autolink). Any other character means it was a bare URL in the source.
  */
 export const md034Rule = lintRule<Root, []>(
-  { origin: 'marky:no-bare-urls', url: undefined },
+  { origin: 'crackdown:no-bare-urls', url: undefined },
   (tree, file) => {
     const sourceLines = String(file).split(/\r?\n/)
 

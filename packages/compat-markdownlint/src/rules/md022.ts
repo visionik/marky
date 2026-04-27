@@ -11,7 +11,7 @@ import type { Root, RootContent } from 'mdast'
  * node, so the check is based on source position gaps between siblings.
  */
 export const md022Rule = lintRule<Root, []>(
-  { origin: 'marky:blanks-around-headings', url: undefined },
+  { origin: 'crackdown:blanks-around-headings', url: undefined },
   (tree, file) => {
     const children = tree.children
     const source = String(file)

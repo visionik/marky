@@ -9,7 +9,7 @@ import type { Fixer } from '../types.js'
  * Use {@link md009Fixer} to automatically strip trailing spaces.
  */
 export const md009Rule = lintRule<Root, []>(
-  { origin: 'marky:no-trailing-spaces', url: undefined },
+  { origin: 'crackdown:no-trailing-spaces', url: undefined },
   (_tree, file) => {
     const lines = String(file).split(/\r?\n/)
     lines.forEach((line, index) => {

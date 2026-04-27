@@ -2,7 +2,7 @@ import { readFile, writeFile, access } from 'node:fs/promises'
 import { dirname, join, isAbsolute, resolve } from 'node:path'
 import type { Writable } from 'node:stream'
 
-/** All rules marky can migrate, keyed by uppercase markdownlint rule ID. */
+/** All rules crackdown can migrate, keyed by uppercase markdownlint rule ID. */
 const SUPPORTED_RULES: ReadonlyMap<
   string,
   { symbol: string; source: string; description: string }
@@ -11,7 +11,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD001',
     {
       symbol: 'md001Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Heading levels increment by one',
     },
   ],
@@ -19,7 +19,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD009',
     {
       symbol: 'md009Rule',
-      source: '@marky/core',
+      source: '@crackdown/core',
       description: 'No trailing spaces',
     },
   ],
@@ -27,7 +27,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD010',
     {
       symbol: 'md010Rule',
-      source: '@marky/core',
+      source: '@crackdown/core',
       description: 'No hard tabs',
     },
   ],
@@ -35,7 +35,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD013',
     {
       symbol: 'md013Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Line length',
     },
   ],
@@ -43,7 +43,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD005',
     {
       symbol: 'md005Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Consistent list indentation at the same level',
     },
   ],
@@ -51,7 +51,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD007',
     {
       symbol: 'md007Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Unordered list indentation (default: 2 spaces per level)',
     },
   ],
@@ -59,7 +59,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD012',
     {
       symbol: 'md012Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Multiple consecutive blank lines',
     },
   ],
@@ -67,7 +67,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD022',
     {
       symbol: 'md022Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Blank lines around headings',
     },
   ],
@@ -75,7 +75,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD024',
     {
       symbol: 'md024Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'No duplicate heading content',
     },
   ],
@@ -83,7 +83,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD025',
     {
       symbol: 'md025Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Single top-level heading per document',
     },
   ],
@@ -91,7 +91,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD026',
     {
       symbol: 'md026Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'No trailing punctuation in headings',
     },
   ],
@@ -99,7 +99,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD031',
     {
       symbol: 'md031Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Blank lines around fenced code blocks',
     },
   ],
@@ -107,7 +107,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD032',
     {
       symbol: 'md032Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Blank lines around lists',
     },
   ],
@@ -115,7 +115,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD033',
     {
       symbol: 'md033Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'No inline HTML',
     },
   ],
@@ -123,7 +123,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD034',
     {
       symbol: 'md034Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'No bare URLs (use angle brackets or [text](url))',
     },
   ],
@@ -131,7 +131,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD040',
     {
       symbol: 'md040Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Fenced code blocks should have a language',
     },
   ],
@@ -139,7 +139,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD041',
     {
       symbol: 'md041Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'First line heading',
     },
   ],
@@ -147,7 +147,7 @@ const SUPPORTED_RULES: ReadonlyMap<
     'MD047',
     {
       symbol: 'md047Rule',
-      source: '@marky/compat-markdownlint',
+      source: '@crackdown/compat-markdownlint',
       description: 'Files should end with a single newline',
     },
   ],
@@ -181,14 +181,14 @@ function classifyRules(raw: Record<string, unknown>): RuleEntry[] {
 }
 
 /**
- * Generate the content of a `marky.config.ts` file for the migrated rules.
+ * Generate the content of a `crackdown.config.ts` file for the migrated rules.
  */
 function generateConfig(entries: RuleEntry[]): string {
   const enabled = entries.filter((e) => e.status === 'supported')
   if (enabled.length === 0) {
-    return `// marky.config.ts — generated by marky migrate
+    return `// crackdown.config.ts — generated by crackdown migrate
 // No supported rules found — configure manually.
-import type { MarkyConfig } from '@marky/core'
+import type { MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   plugins: [],
@@ -216,9 +216,9 @@ export default config
     .map((e) => `    ${e.symbol},`)
     .join('\n')
 
-  return `// marky.config.ts — generated by marky migrate
+  return `// crackdown.config.ts — generated by crackdown migrate
 ${importLines}
-import type { MarkyConfig } from '@marky/core'
+import type { MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   plugins: [
@@ -266,7 +266,7 @@ export interface MigrateIO {
 }
 
 /**
- * Run the `marky migrate` action.
+ * Run the `crackdown migrate` action.
  */
 export async function runMigrate(configPath: string | undefined, io: MigrateIO): Promise<number> {
   const resolved = await resolveConfigPath(configPath, io.cwd)
@@ -305,7 +305,7 @@ export async function runMigrate(configPath: string | undefined, io: MigrateIO):
   if (unsupported.length > 0) {
     io.stdout.write('Unsupported rules (require manual attention):\n')
     for (const e of unsupported) {
-      io.stdout.write(`  ✗ ${e.id}  →  no marky equivalent yet\n`)
+      io.stdout.write(`  ✗ ${e.id}  →  no crackdown equivalent yet\n`)
     }
     io.stdout.write('\n')
   }
@@ -316,7 +316,7 @@ export async function runMigrate(configPath: string | undefined, io: MigrateIO):
 
   // Generate and write the config file
   const configContent = generateConfig(entries)
-  const outputPath = join(dirname(resolved), 'marky.config.ts')
+  const outputPath = join(dirname(resolved), 'crackdown.config.ts')
   await writeFile(outputPath, configContent, 'utf8')
 
   // Summary

@@ -1,4 +1,4 @@
-# @marky/compat-markdownlint
+# @crackdown/compat-markdownlint
 
 markdownlint compatibility layer for marky. Loads `.markdownlintrc` /
 `.markdownlint.json` config files and translates enabled rules into marky
@@ -7,8 +7,8 @@ plugins.
 ## Usage
 
 ```ts
-import { loadMarkdownlintConfig } from '@marky/compat-markdownlint'
-import { lint } from '@marky/core'
+import { loadMarkdownlintConfig } from '@crackdown/compat-markdownlint'
+import { lint } from '@crackdown/core'
 
 const config = await loadMarkdownlintConfig(process.cwd())
 const results = await lint(['README.md'], config)
@@ -17,8 +17,8 @@ const results = await lint(['README.md'], config)
 Or use rules individually:
 
 ```ts
-import { md013Rule, md041Rule } from '@marky/compat-markdownlint'
-import { lintString } from '@marky/core'
+import { md013Rule, md041Rule } from '@crackdown/compat-markdownlint'
+import { lintString } from '@crackdown/core'
 
 const result = await lintString(content, {
   plugins: [md013Rule, md041Rule],
@@ -30,8 +30,8 @@ const result = await lintString(content, {
 | markdownlint rule | Status | marky equivalent |
 |---|---|---|
 | MD001 (heading-increment) | ✅ Supported | `md001Rule` |
-| MD009 (trailing-spaces) | ✅ Supported | `md009Rule` from `@marky/core` + `md009Fixer` |
-| MD010 (no-hard-tabs) | ✅ Supported | `md010Rule` from `@marky/core` + `md010Fixer` |
+| MD009 (trailing-spaces) | ✅ Supported | `md009Rule` from `@crackdown/core` + `md009Fixer` |
+| MD010 (no-hard-tabs) | ✅ Supported | `md010Rule` from `@crackdown/core` + `md010Fixer` |
 | MD012 (multiple-blank-lines) | ✅ Supported | `md012Rule` + `md012Fixer` (collapse) |
 | MD013 (line-length) | ✅ Supported | `md013Rule` (default: 80 chars) |
 | MD022 (blanks-around-headings) | ✅ Supported | `md022Rule` |

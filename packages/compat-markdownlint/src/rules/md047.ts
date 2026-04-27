@@ -1,6 +1,6 @@
 import { lintRule } from 'unified-lint-rule'
 import type { Root } from 'mdast'
-import type { Fixer } from '@marky/core'
+import type { Fixer } from '@crackdown/core'
 
 /**
  * MD047 — Files should end with a single newline character.
@@ -8,7 +8,7 @@ import type { Fixer } from '@marky/core'
  * Use {@link md047Fixer} to automatically append a trailing newline.
  */
 export const md047Rule = lintRule<Root, []>(
-  { origin: 'marky:single-trailing-newline', url: undefined },
+  { origin: 'crackdown:single-trailing-newline', url: undefined },
   (_tree, file) => {
     const content = String(file)
     if (content.length > 0 && !content.endsWith('\n')) {

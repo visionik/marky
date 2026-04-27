@@ -13,7 +13,7 @@ export interface Md010FixerOptions {
  * Use {@link md010Fixer} to automatically replace tabs with spaces.
  */
 export const md010Rule = lintRule<Root, []>(
-  { origin: 'marky:no-hard-tabs', url: undefined },
+  { origin: 'crackdown:no-hard-tabs', url: undefined },
   (_tree, file) => {
     const lines = String(file).split(/\r?\n/)
     lines.forEach((line, index) => {
@@ -34,8 +34,8 @@ export const md010Rule = lintRule<Root, []>(
  * Returns a {@link Fixer}-compatible function for use in `MarkyConfig.fixers`.
  *
  * @example
- * // In marky.config.ts
- * import { md010Fixer } from '@marky/core'
+ * // In crackdown.config.ts
+ * import { md010Fixer } from '@crackdown/core'
  * export default { fixers: [md010Fixer] }
  *
  * // With custom tab size

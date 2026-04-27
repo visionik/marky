@@ -1,6 +1,6 @@
 import { lintRule } from 'unified-lint-rule'
 import type { Root } from 'mdast'
-import type { Fixer } from '@marky/core'
+import type { Fixer } from '@crackdown/core'
 
 export interface Md012Options {
   /** Maximum number of consecutive blank lines allowed (default: 1). */
@@ -14,7 +14,7 @@ export interface Md012Options {
  * Use {@link md012Fixer} to automatically collapse excess blank lines.
  */
 export const md012Rule = lintRule<Root, Md012Options>(
-  { origin: 'marky:no-multiple-blanks', url: undefined },
+  { origin: 'crackdown:no-multiple-blanks', url: undefined },
   (_tree, file, options) => {
     const max = options?.maximum ?? 1
     const lines = String(file).split(/\r?\n/)

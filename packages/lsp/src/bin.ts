@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * marky-lsp — LSP server entry point.
+ * crackdown-lsp — LSP server entry point.
  *
- * Starts the marky Language Server over stdio so any LSP-capable editor
+ * Starts the crackdown Language Server over stdio so any LSP-capable editor
  * (Neovim, Zed, Helix, Emacs, etc.) can connect to it.
  *
- * Usage: marky lsp
- *   or:  npx marky-lsp
+ * Usage: crackdown lsp
+ *   or:  npx crackdown-lsp
  */
 import { createConnection, ProposedFeatures } from 'vscode-languageserver/node.js'
 import { createServer } from './server.js'

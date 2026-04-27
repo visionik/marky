@@ -1,7 +1,7 @@
 {
-  "name": "@marky/vscode",
+  "name": "@crackdown/vscode",
   "version": "0.1.0",
-  "description": "VS Code extension for marky Markdown linter",
+  "description": "VS Code extension for crackdown Markdown linter",
   "engines": {
     "vscode": "^1.80.0"
   },
@@ -12,7 +12,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@marky/lsp": "workspace:*",
+    "@crackdown/lsp": "workspace:*",
     "vscode-languageclient": "^9.0.0"
   },
   "devDependencies": {

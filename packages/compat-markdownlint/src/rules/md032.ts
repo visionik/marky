@@ -5,7 +5,7 @@ import type { Root, RootContent } from 'mdast'
  * MD032 — Lists should be surrounded by blank lines.
  */
 export const md032Rule = lintRule<Root, []>(
-  { origin: 'marky:blanks-around-lists', url: undefined },
+  { origin: 'crackdown:blanks-around-lists', url: undefined },
   (tree, file) => {
     const children = tree.children
     children.forEach((node: RootContent, index: number) => {

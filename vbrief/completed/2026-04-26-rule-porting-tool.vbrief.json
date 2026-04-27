@@ -5,23 +5,23 @@
     "created": "2026-04-26T20:08:12Z"
   },
   "plan": {
-    "title": "Rule porting tool (marky migrate) + expanded compat coverage",
+    "title": "Rule porting tool (crackdown migrate) + expanded compat coverage",
     "status": "completed",
     "narratives": {
-      "Overview": "Lower the migration barrier from markdownlint. Adds `marky migrate <config>` CLI command that reads an existing .markdownlintrc and reports which rules have marky equivalents, which are unsupported, and what manual steps remain. Also expands @marky/compat-markdownlint with 4+ additional rule shims."
+      "Overview": "Lower the migration barrier from markdownlint. Adds `crackdown migrate <config>` CLI command that reads an existing .markdownlintrc and reports which rules have marky equivalents, which are unsupported, and what manual steps remain. Also expands @crackdown/compat-markdownlint with 4+ additional rule shims."
     },
     "items": [
       {
         "id": "1",
-        "title": "`marky migrate <config-path>` command: reads .markdownlintrc/.markdownlint.json, outputs a migration report (supported, unsupported, manual-review)"
+        "title": "`crackdown migrate <config-path>` command: reads .markdownlintrc/.markdownlint.json, outputs a migration report (supported, unsupported, manual-review)"
       },
       {
         "id": "2",
-        "title": "Migration report includes a generated marky.config.ts snippet with all supported rules pre-wired"
+        "title": "Migration report includes a generated crackdown.config.ts snippet with all supported rules pre-wired"
       },
       {
         "id": "3",
-        "title": "MD001 (heading-increment) rule shim added to @marky/compat-markdownlint"
+        "title": "MD001 (heading-increment) rule shim added to @crackdown/compat-markdownlint"
       },
       {
         "id": "4",

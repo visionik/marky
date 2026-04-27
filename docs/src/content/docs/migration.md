@@ -1,46 +1,46 @@
 ---
 title: Migrating from markdownlint
-description: Step-by-step guide to migrating your .markdownlintrc config to marky.config.ts.
+description: Step-by-step guide to migrating your .markdownlintrc config to crackdown.config.ts.
 ---
 
-marky ships a built-in migration tool that reads your `.markdownlintrc` and generates a ready-to-use `marky.config.ts` with all supported rules pre-wired.
+crackdown ships a built-in migration tool that reads your `.markdownlintrc` and generates a ready-to-use `crackdown.config.ts` with all supported rules pre-wired.
 
 ## Automatic migration
 
 ```sh
-marky migrate .markdownlintrc
+crackdown migrate .markdownlintrc
 ```
 
 This command:
 1. Reads your existing config file.
 2. Maps each enabled rule to its marky equivalent.
-3. Writes `marky.config.ts` alongside the config file.
+3. Writes `crackdown.config.ts` alongside the config file.
 4. Prints a report with `✓ supported` and `✗ unsupported` rules.
 
 ## Rule mapping reference
 
-18 markdownlint rules are supported. `marky migrate` maps all of them automatically.
+18 markdownlint rules are supported. `crackdown migrate` maps all of them automatically.
 
 | markdownlint rule | Status | marky equivalent | Package |
 |---|---|---|---|
-| MD001 (heading-increment) | ✅ | `md001Rule` | `@marky/compat-markdownlint` |
-| MD005 (list-indent) | ✅ | `md005Rule` | `@marky/compat-markdownlint` |
-| MD007 (unordered-list-indent) | ✅ | `md007Rule` (configurable `indent`, default 2) | `@marky/compat-markdownlint` |
-| MD009 (trailing-spaces) | ✅ | `md009Rule` + `md009Fixer` | `@marky/core` |
-| MD010 (no-hard-tabs) | ✅ | `md010Rule` + `md010Fixer` | `@marky/core` |
-| MD012 (multiple-blank-lines) | ✅ | `md012Rule` + `md012Fixer` | `@marky/compat-markdownlint` |
-| MD013 (line-length) | ✅ | `md013Rule` (configurable `lineLength`, default 80) | `@marky/compat-markdownlint` |
-| MD022 (blanks-around-headings) | ✅ | `md022Rule` | `@marky/compat-markdownlint` |
-| MD024 (no-duplicate-headings) | ✅ | `md024Rule` | `@marky/compat-markdownlint` |
-| MD025 (single-top-level-heading) | ✅ | `md025Rule` | `@marky/compat-markdownlint` |
-| MD026 (trailing-punctuation) | ✅ | `md026Rule` | `@marky/compat-markdownlint` |
-| MD031 (blanks-around-fences) | ✅ | `md031Rule` | `@marky/compat-markdownlint` |
-| MD032 (blanks-around-lists) | ✅ | `md032Rule` | `@marky/compat-markdownlint` |
-| MD033 (no-inline-html) | ✅ | `md033Rule` | `@marky/compat-markdownlint` |
-| MD034 (no-bare-urls) | ✅ | `md034Rule` | `@marky/compat-markdownlint` |
-| MD040 (fenced-code-language) | ✅ | `md040Rule` | `@marky/compat-markdownlint` |
-| MD041 (first-line-heading) | ✅ | `md041Rule` | `@marky/compat-markdownlint` |
-| MD047 (single-trailing-newline) | ✅ | `md047Rule` + `md047Fixer` | `@marky/compat-markdownlint` |
+| MD001 (heading-increment) | ✅ | `md001Rule` | `@crackdown/compat-markdownlint` |
+| MD005 (list-indent) | ✅ | `md005Rule` | `@crackdown/compat-markdownlint` |
+| MD007 (unordered-list-indent) | ✅ | `md007Rule` (configurable `indent`, default 2) | `@crackdown/compat-markdownlint` |
+| MD009 (trailing-spaces) | ✅ | `md009Rule` + `md009Fixer` | `@crackdown/core` |
+| MD010 (no-hard-tabs) | ✅ | `md010Rule` + `md010Fixer` | `@crackdown/core` |
+| MD012 (multiple-blank-lines) | ✅ | `md012Rule` + `md012Fixer` | `@crackdown/compat-markdownlint` |
+| MD013 (line-length) | ✅ | `md013Rule` (configurable `lineLength`, default 80) | `@crackdown/compat-markdownlint` |
+| MD022 (blanks-around-headings) | ✅ | `md022Rule` | `@crackdown/compat-markdownlint` |
+| MD024 (no-duplicate-headings) | ✅ | `md024Rule` | `@crackdown/compat-markdownlint` |
+| MD025 (single-top-level-heading) | ✅ | `md025Rule` | `@crackdown/compat-markdownlint` |
+| MD026 (trailing-punctuation) | ✅ | `md026Rule` | `@crackdown/compat-markdownlint` |
+| MD031 (blanks-around-fences) | ✅ | `md031Rule` | `@crackdown/compat-markdownlint` |
+| MD032 (blanks-around-lists) | ✅ | `md032Rule` | `@crackdown/compat-markdownlint` |
+| MD033 (no-inline-html) | ✅ | `md033Rule` | `@crackdown/compat-markdownlint` |
+| MD034 (no-bare-urls) | ✅ | `md034Rule` | `@crackdown/compat-markdownlint` |
+| MD040 (fenced-code-language) | ✅ | `md040Rule` | `@crackdown/compat-markdownlint` |
+| MD041 (first-line-heading) | ✅ | `md041Rule` | `@crackdown/compat-markdownlint` |
+| MD047 (single-trailing-newline) | ✅ | `md047Rule` + `md047Fixer` | `@crackdown/compat-markdownlint` |
 | MD003 (heading-style) | ❌ Not yet implemented | — | — |
 | MD036 (no-emphasis-as-heading) | ❌ Not yet implemented | — | — |
 
@@ -49,10 +49,10 @@ This command:
 If you prefer to set up manually:
 
 ```sh
-pnpm add -D @marky/core @marky/cli @marky/compat-markdownlint
+pnpm add -D @crackdown/core @crackdown/cli @crackdown/compat-markdownlint
 ```
 
-Create `marky.config.ts`:
+Create `crackdown.config.ts`:
 
 ```ts
 import {
@@ -66,9 +66,9 @@ import {
   md040Rule,
   md041Rule,
   md047Rule, md047Fixer,
-} from '@marky/compat-markdownlint'
-import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@marky/core'
-import type { MarkyConfig } from '@marky/core'
+} from '@crackdown/compat-markdownlint'
+import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@crackdown/core'
+import type { MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   plugins: [
@@ -102,7 +102,7 @@ export default config
 The default line length is 80 characters. Use the `[rule, options]` tuple to configure it:
 
 ```ts
-import { md013Rule } from '@marky/compat-markdownlint'
+import { md013Rule } from '@crackdown/compat-markdownlint'
 
 const config: MarkyConfig = {
   plugins: [
@@ -120,20 +120,20 @@ const config: MarkyConfig = {
   plugins: [md013Rule],
   rules: {
     'remark-lint:maximum-line-length': 'error',  // upgrade to error
-    'marky:no-trailing-spaces': 'off',            // disable entirely
+    'crackdown:no-trailing-spaces': 'off',            // disable entirely
   },
 }
 ```
 
-Rule IDs follow the pattern `<source>:<rule-name>` as shown in `marky lint` output.
+Rule IDs follow the pattern `<source>:<rule-name>` as shown in `crackdown lint` output.
 
 ## Loading .markdownlintrc at runtime
 
 You can also load an existing `.markdownlintrc` programmatically:
 
 ```ts
-import { loadMarkdownlintConfig } from '@marky/compat-markdownlint'
-import { lint } from '@marky/core'
+import { loadMarkdownlintConfig } from '@crackdown/compat-markdownlint'
+import { lint } from '@crackdown/core'
 
 const config = await loadMarkdownlintConfig(process.cwd())
 const results = await lint(['README.md'], config)

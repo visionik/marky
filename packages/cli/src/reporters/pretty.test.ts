@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest'
 import chalk from 'chalk'
 import { formatPretty } from './pretty.js'
-import type { LintResult } from '@marky/core'
+import type { LintResult } from '@crackdown/core'
 
 beforeAll(() => {
   // Force chalk to emit ANSI codes regardless of TTY/CI detection so we
@@ -22,7 +22,7 @@ const withMixed: LintResult[] = [
         severity: 'error',
       },
       {
-        ruleId: 'marky:mermaid-syntax',
+        ruleId: 'crackdown:mermaid-syntax',
         message: 'Bad mermaid block',
         line: 12,
         column: 1,
@@ -46,7 +46,7 @@ describe('formatPretty', () => {
     expect(out).toContain('remark-lint:no-heading-punctuation')
     expect(out).toContain('Heading ends with !')
     expect(out).toContain('12:1')
-    expect(out).toContain('marky:mermaid-syntax')
+    expect(out).toContain('crackdown:mermaid-syntax')
     expect(out).toContain('Bad mermaid block')
   })
 

@@ -8,8 +8,8 @@ import type { Fixer, PluginEntry, Severity } from './types.js'
 export type RuleSeverity = Severity | 'off'
 
 /**
- * User-facing configuration for marky, typically declared in
- * `marky.config.ts` at the repository root.
+ * User-facing configuration for crackdown, typically declared in
+ * `crackdown.config.ts` at the repository root.
  */
 export interface MarkyConfig {
   /**
@@ -30,8 +30,8 @@ export interface MarkyConfig {
   fixers?: Fixer[]
 }
 
-/** Filename marky looks for when resolving a configuration. */
-export const CONFIG_FILENAME = 'marky.config.ts'
+/** Filename crackdown looks for when resolving a configuration. */
+export const CONFIG_FILENAME = 'crackdown.config.ts'
 
 const VALID_SEVERITIES: ReadonlySet<RuleSeverity> = new Set<RuleSeverity>(['error', 'warn', 'off'])
 
@@ -46,7 +46,7 @@ async function fileExists(path: string): Promise<boolean> {
 
 /**
  * Walk up the directory tree from `cwd`, returning the first
- * `marky.config.ts` found, or `null` if no config file exists between
+ * `crackdown.config.ts` found, or `null` if no config file exists between
  * `cwd` and the filesystem root.
  */
 export async function findConfigFile(cwd: string): Promise<string | null> {
@@ -76,7 +76,9 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
     return {}
   }
   if (!isPlainObject(loaded)) {
-    throw new Error(`Invalid marky.config.ts at ${configPath}: default export must be an object.`)
+    throw new Error(
+      `Invalid crackdown.config.ts at ${configPath}: default export must be an object.`,
+    )
   }
 
   const config: MarkyConfig = {}
@@ -84,13 +86,13 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
   if ('rules' in loaded && loaded.rules !== undefined) {
     const rules = loaded.rules
     if (!isPlainObject(rules)) {
-      throw new Error(`Invalid marky.config.ts at ${configPath}: "rules" must be an object.`)
+      throw new Error(`Invalid crackdown.config.ts at ${configPath}: "rules" must be an object.`)
     }
     const validated: Record<string, RuleSeverity> = {}
     for (const [ruleId, severity] of Object.entries(rules)) {
       if (typeof severity !== 'string' || !VALID_SEVERITIES.has(severity as RuleSeverity)) {
         throw new Error(
-          `Invalid marky.config.ts at ${configPath}: rule "${ruleId}" has invalid severity ${JSON.stringify(
+          `Invalid crackdown.config.ts at ${configPath}: rule "${ruleId}" has invalid severity ${JSON.stringify(
             severity,
           )}. Expected "error", "warn", or "off".`,
         )
@@ -103,7 +105,7 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
   if ('plugins' in loaded && loaded.plugins !== undefined) {
     const plugins = loaded.plugins
     if (!Array.isArray(plugins)) {
-      throw new Error(`Invalid marky.config.ts at ${configPath}: "plugins" must be an array.`)
+      throw new Error(`Invalid crackdown.config.ts at ${configPath}: "plugins" must be an array.`)
     }
     config.plugins = plugins as PluginEntry[]
   }
@@ -111,7 +113,7 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
   if ('fixers' in loaded && loaded.fixers !== undefined) {
     const fixers = loaded.fixers
     if (!Array.isArray(fixers)) {
-      throw new Error(`Invalid marky.config.ts at ${configPath}: "fixers" must be an array.`)
+      throw new Error(`Invalid crackdown.config.ts at ${configPath}: "fixers" must be an array.`)
     }
     config.fixers = fixers as Fixer[]
   }
@@ -120,12 +122,12 @@ function validateConfig(loaded: unknown, configPath: string): MarkyConfig {
 }
 
 /**
- * Load a marky configuration from a specific file path.
+ * Load a crackdown configuration from a specific file path.
  *
  * Uses {@link https://github.com/unjs/jiti | jiti} to evaluate TypeScript
  * config files at runtime so users do not need a separate compile step.
  *
- * @param configPath - Absolute path to a `marky.config.ts` file.
+ * @param configPath - Absolute path to a `crackdown.config.ts` file.
  * @returns The validated, normalized {@link MarkyConfig}.
  * @throws If the file's default export is not a valid `MarkyConfig` shape.
  */
@@ -143,8 +145,8 @@ export async function loadConfigFromFile(configPath: string): Promise<MarkyConfi
 }
 
 /**
- * Resolve and load a marky configuration starting from `cwd`. Walks up the
- * directory tree until a `marky.config.ts` is found or the filesystem root
+ * Resolve and load a crackdown configuration starting from `cwd`. Walks up the
+ * directory tree until a `crackdown.config.ts` is found or the filesystem root
  * is reached. Returns an empty config when none is found.
  *
  * @param cwd - Directory to start the search from.

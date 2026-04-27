@@ -10,12 +10,12 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 <Tabs>
   <TabItem label="pnpm">
     ```sh
-    pnpm add -D @marky/core @marky/cli
+    pnpm add -D @crackdown/core @crackdown/cli
     ```
   </TabItem>
   <TabItem label="npm">
     ```sh
-    npm install --save-dev @marky/core @marky/cli
+    npm install --save-dev @crackdown/core @crackdown/cli
     ```
   </TabItem>
 </Tabs>
@@ -27,7 +27,7 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 1. **Lint a file**
 
    ```sh
-   npx marky lint README.md
+   npx crackdown lint README.md
    ```
 
    Output:
@@ -40,19 +40,19 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 2. **Auto-fix mechanical issues**
 
    ```sh
-   npx marky lint --fix README.md
+   npx crackdown lint --fix README.md
    ```
 
-3. **Add a `marky.config.ts` for custom rules**
+3. **Add a `crackdown.config.ts` for custom rules**
 
    ```ts
-   // marky.config.ts
-   import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@marky/core'
+   // crackdown.config.ts
+   import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@crackdown/core'
    import {
      md040Rule, md041Rule, md047Rule, md047Fixer,
-   } from '@marky/compat-markdownlint'
-   import { remarkLintMermaid } from '@marky/plugin-mermaid'
-   import type { MarkyConfig } from '@marky/core'
+   } from '@crackdown/compat-markdownlint'
+   import { remarkLintMermaid } from '@crackdown/plugin-mermaid'
+   import type { MarkyConfig } from '@crackdown/core'
 
    const config: MarkyConfig = {
      plugins: [
@@ -76,7 +76,7 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 4. **Run on your whole project**
 
    ```sh
-   npx marky lint docs/
+   npx crackdown lint docs/
    ```
 
 </Steps>
@@ -85,12 +85,12 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 
 | Package | Purpose |
 |---|---|
-| `@marky/core` | Core pipeline, programmatic API (`lintString`, `lint`, `lintStringFix`) |
-| `@marky/cli` | CLI (`marky lint`, `marky migrate`, `marky lsp`) |
-| `@marky/plugin-mermaid` | First-class Mermaid diagram validation |
-| `@marky/compat-markdownlint` | 18 markdownlint rule shims: MD001, MD005, MD007, MD009, MD010, MD012, MD013, MD022, MD024, MD025, MD026, MD031, MD032, MD033, MD034, MD040, MD041, MD047 |
-| `@marky/lsp` | Language Server for editor integration (Neovim, Zed, Helix) |
-| `@marky/vscode` | VS Code extension |
+| `@crackdown/core` | Core pipeline, programmatic API (`lintString`, `lint`, `lintStringFix`) |
+| `@crackdown/cli` | CLI (`crackdown lint`, `crackdown migrate`, `crackdown lsp`) |
+| `@crackdown/plugin-mermaid` | First-class Mermaid diagram validation |
+| `@crackdown/compat-markdownlint` | 18 markdownlint rule shims: MD001, MD005, MD007, MD009, MD010, MD012, MD013, MD022, MD024, MD025, MD026, MD031, MD032, MD033, MD034, MD040, MD041, MD047 |
+| `@crackdown/lsp` | Language Server for editor integration (Neovim, Zed, Helix) |
+| `@crackdown/vscode` | VS Code extension |
 
 ## Next steps
 

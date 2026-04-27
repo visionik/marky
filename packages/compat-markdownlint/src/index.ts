@@ -1,4 +1,4 @@
-// @marky/compat-markdownlint — markdownlint compatibility layer
+// @crackdown/compat-markdownlint — markdownlint compatibility layer
 
 export const COMPAT_VERSION = '0.0.1'
 

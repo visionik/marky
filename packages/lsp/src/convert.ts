@@ -1,10 +1,10 @@
 import { type Diagnostic, DiagnosticSeverity } from 'vscode-languageserver'
-import type { LintResult, LintViolation } from '@marky/core'
+import type { LintResult, LintViolation } from '@crackdown/core'
 
 /**
- * Convert a single marky {@link LintViolation} to an LSP {@link Diagnostic}.
+ * Convert a single crackdown {@link LintViolation} to an LSP {@link Diagnostic}.
  *
- * marky uses 1-based line/column; LSP uses 0-based character positions.
+ * crackdown uses 1-based line/column; LSP uses 0-based character positions.
  */
 export function violationToDiagnostic(violation: LintViolation): Diagnostic {
   const line = Math.max(0, violation.line - 1)

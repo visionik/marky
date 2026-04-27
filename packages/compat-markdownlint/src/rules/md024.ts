@@ -17,7 +17,7 @@ function headingText(node: Heading): string {
  * Comparison is case-sensitive (e.g. "Overview" and "overview" are distinct).
  */
 export const md024Rule = lintRule<Root, []>(
-  { origin: 'marky:no-duplicate-headings', url: undefined },
+  { origin: 'crackdown:no-duplicate-headings', url: undefined },
   (tree, file) => {
     const seen = new Set<string>()
 

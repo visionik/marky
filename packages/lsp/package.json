@@ -1,13 +1,13 @@
 {
-  "name": "@marky/lsp",
+  "name": "@crackdown/lsp",
   "version": "0.1.0",
   "type": "module",
-  "description": "LSP server for marky Markdown linter",
+  "description": "LSP server for crackdown Markdown linter",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "marky-lsp": "./dist/bin.js"
+    "crackdown-lsp": "./dist/bin.js"
   },
   "exports": {
     ".": {
@@ -22,7 +22,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@marky/core": "workspace:*",
+    "@crackdown/core": "workspace:*",
     "vscode-languageserver": "^9.0.0",
     "vscode-languageserver-textdocument": "^1.0.0",
     "vscode-uri": "^3.0.0"

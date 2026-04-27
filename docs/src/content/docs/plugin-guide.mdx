@@ -1,6 +1,6 @@
 ---
 title: Plugin Authoring Guide
-description: How to write a custom marky lint rule using unified-lint-rule and register it in marky.config.ts.
+description: How to write a custom crackdown lint rule using unified-lint-rule and register it in crackdown.config.ts.
 ---
 
 import { Steps, Aside } from '@astrojs/starlight/components'
@@ -38,9 +38,9 @@ Key parts:
 ## Register the rule
 
 ```ts
-// marky.config.ts
+// crackdown.config.ts
 import { myRule } from './my-rule.js'
-import type { MarkyConfig } from '@marky/core'
+import type { MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   plugins: [myRule],
@@ -74,8 +74,8 @@ export const myRule = lintRule<Root, MyRuleOptions>(
 Register with options:
 
 ```ts
-// marky.config.ts
-import type { MarkyConfig } from '@marky/core'
+// crackdown.config.ts
+import type { MarkyConfig } from '@crackdown/core'
 import { myRule } from './my-configurable-rule.js'
 
 const config: MarkyConfig = {
@@ -92,8 +92,8 @@ export default config
 A `Fixer` is a pure `(content: string) => string` function. Register it in `config.fixers`:
 
 ```ts
-// marky.config.ts
-import type { MarkyConfig, Fixer } from '@marky/core'
+// crackdown.config.ts
+import type { MarkyConfig, Fixer } from '@crackdown/core'
 import { myRule } from './my-rule.js'
 
 const myFixer: Fixer = (content) => {
@@ -109,7 +109,7 @@ const config: MarkyConfig = {
 export default config
 ```
 
-When `marky lint --fix` runs:
+When `crackdown lint --fix` runs:
 1. Lint the original content → count violations.
 2. Apply each fixer in order.
 3. Re-lint the fixed content → report remaining violations and `fixedCount`.
@@ -138,11 +138,11 @@ marky uses the full [mdast](https://github.com/syntax-tree/mdast) specification.
 
 ## Testing your rule
 
-Use `lintString` from `@marky/core` to test rules without the CLI:
+Use `lintString` from `@crackdown/core` to test rules without the CLI:
 
 ```ts
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { myRule } from './my-rule.js'
 
 describe('myRule', () => {

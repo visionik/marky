@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md040Rule } from './md040.js'
 
 describe('md040Rule — fenced code blocks should have a language', () => {

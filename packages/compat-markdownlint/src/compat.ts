@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
-import type { PluginEntry } from '@marky/core'
-import { md009Rule, md010Rule } from '@marky/core'
+import type { PluginEntry } from '@crackdown/core'
+import { md009Rule, md010Rule } from '@crackdown/core'
 import { md001Rule } from './rules/md001.js'
 import { md005Rule } from './rules/md005.js'
 import { md007Rule } from './rules/md007.js'
@@ -63,7 +63,7 @@ async function tryReadJson(cwd: string, filename: string): Promise<Record<string
 /**
  * Load a markdownlint-style config file (`.markdownlintrc` or
  * `.markdownlint.json`) from `cwd` and translate any recognised, enabled
- * rules into the corresponding marky plugins.
+ * rules into the corresponding crackdown plugins.
  *
  * Returns `{ plugins: [] }` when no config file is found.
  */

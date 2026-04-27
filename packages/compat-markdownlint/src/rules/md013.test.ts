@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md013Rule } from './md013.js'
 
 const LONG_LINE = 'a'.repeat(81)

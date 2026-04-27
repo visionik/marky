@@ -5,7 +5,7 @@
 import {
   md009Rule, md009Fixer,
   md010Rule, md010Fixer,
-} from '@marky/core'
+} from '@crackdown/core'
 import {
   md012Rule, md012Fixer,
   md025Rule,
@@ -13,8 +13,8 @@ import {
   md040Rule,
   md041Rule,
   md047Rule, md047Fixer,
-} from '@marky/compat-markdownlint'
-import type { MarkyConfig } from '@marky/core'
+} from '@crackdown/compat-markdownlint'
+import type { MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   plugins: [

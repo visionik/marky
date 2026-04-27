@@ -29,7 +29,7 @@
       },
       {
         "id": "5",
-        "title": "Plugin exported from packages/plugin-mermaid and registerable via marky.config.ts plugins array"
+        "title": "Plugin exported from packages/plugin-mermaid and registerable via crackdown.config.ts plugins array"
       },
       {
         "id": "6",

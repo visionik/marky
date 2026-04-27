@@ -7,7 +7,7 @@ import { Aside } from '@astrojs/starlight/components'
 
 ## The lint pipeline
 
-marky is built on the [unified](https://unifiedjs.com/) ecosystem. Every lint pass follows the same five-step pipeline:
+crackdown is built on the [unified](https://unifiedjs.com/) ecosystem. Every lint pass follows the same five-step pipeline:
 
 ```
 Markdown source
@@ -60,26 +60,26 @@ Markdown source
 ```
 marky/
   packages/
-    core/               @marky/core
+    core/               @crackdown/core
     │ ├─ lint.ts        lintString, lintFile
     │ ├─ fix.ts         lintStringFix, lintFileFix
-    │ ├─ config.ts      loadConfig (jiti-based marky.config.ts loader)
+    │ ├─ config.ts      loadConfig (jiti-based crackdown.config.ts loader)
     │ ├─ api.ts         lint() — multi-file programmatic API
     │ └─ rules/
     │    ├─ md009.ts    trailing spaces
     │    └─ md010.ts    hard tabs
     │
-    cli/                @marky/cli
-    │ ├─ cli.ts         marky lint / marky lsp / marky migrate
-    │ ├─ migrate.ts     marky migrate (markdownlint → marky.config.ts)
+    cli/                @crackdown/cli
+    │ ├─ cli.ts         crackdown lint / crackdown lsp / crackdown migrate
+    │ ├─ migrate.ts     crackdown migrate (markdownlint → crackdown.config.ts)
     │ └─ reporters/
     │    ├─ pretty.ts   terminal output
     │    └─ json.ts     JSON output
     │
-    plugin-mermaid/     @marky/plugin-mermaid
+    plugin-mermaid/     @crackdown/plugin-mermaid
     │ └─ index.ts       remarkLintMermaid (@mermaid-js/parser)
     │
-    compat-markdownlint/ @marky/compat-markdownlint
+    compat-markdownlint/ @crackdown/compat-markdownlint
     │ ├─ compat.ts      loadMarkdownlintConfig
     │ └─ rules/
     │    ├─ md001.ts    heading-increment
@@ -87,27 +87,27 @@ marky/
     │    ├─ md022.ts    blanks-around-headings
     │    └─ md041.ts    first-line-heading
     │
-    lsp/                @marky/lsp
+    lsp/                @crackdown/lsp
     │ ├─ convert.ts     LintViolation → LSP Diagnostic
     │ ├─ validate.ts    validateMarkdown
     │ └─ server.ts      createServer (TextDocuments, debounce, codeAction)
     │
-    vscode/             @marky/vscode
-      └─ extension.ts   VS Code extension (LanguageClient → @marky/lsp)
+    vscode/             @crackdown/vscode
+      └─ extension.ts   VS Code extension (LanguageClient → @crackdown/lsp)
 ```
 
 ## Config loading
 
-`marky.config.ts` is loaded at runtime using [jiti](https://github.com/unjs/jiti), which evaluates TypeScript without a compilation step. Config discovery walks up the directory tree from the linted file's location until it finds a `marky.config.ts` or reaches the filesystem root.
+`crackdown.config.ts` is loaded at runtime using [jiti](https://github.com/unjs/jiti), which evaluates TypeScript without a compilation step. Config discovery walks up the directory tree from the linted file's location until it finds a `crackdown.config.ts` or reaches the filesystem root.
 
 <Aside type="note">
   Config is cached per workspace root. The LSP server additionally watches
-  `marky.config.ts` for changes and invalidates the cache automatically.
+  `crackdown.config.ts` for changes and invalidates the cache automatically.
 </Aside>
 
 ## Mermaid validation
 
-The `@marky/plugin-mermaid` plugin takes a different approach from the text-based rules: it passes the raw content of each `mermaid` code block to `@mermaid-js/parser`, which uses a Langium-based grammar for accurate syntax validation.
+The `@crackdown/plugin-mermaid` plugin takes a different approach from the text-based rules: it passes the raw content of each `mermaid` code block to `@mermaid-js/parser`, which uses a Langium-based grammar for accurate syntax validation.
 
 Diagram type is detected from the first non-empty token (e.g. `flowchart`, `pie`, `gitGraph`). Types not supported by the v1 parser (e.g. `sequenceDiagram`, `classDiagram`) are skipped gracefully — no false positives.
 
@@ -117,12 +117,12 @@ Diagram type is detected from the first non-empty token (e.g. `flowchart`, `pie`
 Editor (VS Code, Neovim, Zed…)
         │  LSP protocol (JSON-RPC over stdio)
         ▼
-  @marky/lsp server
+  @crackdown/lsp server
    ├─ TextDocuments manager    ← tracks open files
    ├─ Config cache             ← loadConfig() per workspace root
-   ├─ fs.watch watcher         ← hot-reload marky.config.ts
+   ├─ fs.watch watcher         ← hot-reload crackdown.config.ts
    ├─ Debounce timer (300ms)   ← onDidChange validation
-   └─ validateMarkdown()       ← @marky/core lintString
+   └─ validateMarkdown()       ← @crackdown/core lintString
         │  Diagnostic[]
         ▼
   textDocument/publishDiagnostics  → inline squiggles in editor

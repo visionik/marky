@@ -1,4 +1,4 @@
-// @marky/core — Markdown lint pipeline
+// @crackdown/core — Markdown lint pipeline
 
 export const VERSION = '0.0.1'
 

@@ -10,7 +10,7 @@ import { visit } from 'unist-util-visit'
  * always consistent; this rule catches edge cases in preprocessed input.
  */
 export const md005Rule = lintRule<Root, []>(
-  { origin: 'marky:list-indent-level', url: undefined },
+  { origin: 'crackdown:list-indent-level', url: undefined },
   (tree, file) => {
     visit(tree, 'list', (listNode: List) => {
       const items = listNode.children as ListItem[]

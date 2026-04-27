@@ -13,7 +13,7 @@ import {
   type LintResult,
   type FixResult,
   type MarkyConfig,
-} from '@marky/core'
+} from '@crackdown/core'
 import type { Readable, Writable } from 'node:stream'
 import { formatJson } from './reporters/json.js'
 import { formatPretty } from './reporters/pretty.js'
@@ -204,7 +204,7 @@ async function collectResults(
 }
 
 /**
- * Run the marky CLI with the given argv (excluding `node` and the script
+ * Run the crackdown CLI with the given argv (excluding `node` and the script
  * path). Returns the process exit code rather than calling
  * `process.exit`, which makes the function trivially testable.
  *
@@ -222,7 +222,7 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
 
   const program = new Command()
   program
-    .name('marky')
+    .name('crackdown')
     .description('Markdown linter — fast, configurable, zero-config friendly')
     .exitOverride()
     .configureOutput({
@@ -241,7 +241,7 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
         .choices([...VALID_FORMATS])
         .default('pretty'),
     )
-    .option('-c, --config <path>', 'explicit path to marky.config.ts')
+    .option('-c, --config <path>', 'explicit path to crackdown.config.ts')
     .option('--fix', 'apply auto-fixers and rewrite files in place')
     .option('--dry-run', 'with --fix, show what would change without writing')
     .action(async (paths: string[], opts: LintOptions) => {
@@ -250,10 +250,10 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
 
   program
     .command('lsp')
-    .description('Start the marky Language Server over stdio (for Neovim, Zed, Helix, etc.).')
+    .description('Start the crackdown Language Server over stdio (for Neovim, Zed, Helix, etc.).')
     .action(() => {
       const req = createRequire(import.meta.url)
-      const pkg = req.resolve('@marky/lsp/package.json') as string
+      const pkg = req.resolve('@crackdown/lsp/package.json') as string
       const pkgDir = pkg.replace(/[\\/]package\.json$/, '')
       const bin = `${pkgDir}/dist/bin.js`
       const child = spawn(process.execPath, [bin], { stdio: 'inherit' })
@@ -265,7 +265,7 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
   program
     .command('migrate [config-path]')
     .description(
-      'Migrate a .markdownlintrc config to marky.config.ts. ' +
+      'Migrate a .markdownlintrc config to crackdown.config.ts. ' +
         'Defaults to .markdownlintrc or .markdownlint.json in cwd.',
     )
     .action(async (configPath?: string) => {

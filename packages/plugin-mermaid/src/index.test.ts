@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import remarkLintMermaid, { PLUGIN_NAME, remarkLintMermaid as namedExport } from './index.js'
 
-describe('@marky/plugin-mermaid exports', () => {
+describe('@crackdown/plugin-mermaid exports', () => {
   it('exposes PLUGIN_NAME', () => {
-    expect(PLUGIN_NAME).toBe('marky-lint-mermaid')
+    expect(PLUGIN_NAME).toBe('crackdown-lint-mermaid')
   })
 
   it('exposes remarkLintMermaid as both default and named export', () => {
@@ -76,7 +76,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
     expect(result.violations.length).toBeGreaterThanOrEqual(1)
     const v = result.violations[0]
     expect(v).toBeDefined()
-    expect(v!.ruleId).toBe('marky:mermaid-syntax')
+    expect(v!.ruleId).toBe('crackdown:mermaid-syntax')
     // Position should point at the code block opening fence (line 3 in this fixture).
     expect(v!.line).toBe(3)
     expect(v!.column).toBe(1)
@@ -87,7 +87,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
     const md = ['```mermaid', 'info', '  ??? this is junk ???', '```', ''].join('\n')
     const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations.length).toBeGreaterThanOrEqual(1)
-    expect(result.violations[0]?.ruleId).toBe('marky:mermaid-syntax')
+    expect(result.violations[0]?.ruleId).toBe('crackdown:mermaid-syntax')
   })
 
   it('only reports against the failing block when multiple are present', async () => {
@@ -105,7 +105,7 @@ describe('remarkLintMermaid — invalid syntax', () => {
     ].join('\n')
     const result = await lintString(md, { plugins: [remarkLintMermaid] })
     expect(result.violations).toHaveLength(1)
-    expect(result.violations[0]?.ruleId).toBe('marky:mermaid-syntax')
+    expect(result.violations[0]?.ruleId).toBe('crackdown:mermaid-syntax')
     // Second code block opens on line 6.
     expect(result.violations[0]?.line).toBe(6)
   })

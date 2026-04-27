@@ -13,7 +13,7 @@
     "items": [
       {
         "id": "1",
-        "title": "`marky lint <glob|dir>` command implemented via commander.js; accepts one or more path arguments"
+        "title": "`crackdown lint <glob|dir>` command implemented via commander.js; accepts one or more path arguments"
       },
       {
         "id": "2",
@@ -21,7 +21,7 @@
       },
       {
         "id": "3",
-        "title": "--config flag accepts an explicit path to marky.config.ts, overriding directory walk"
+        "title": "--config flag accepts an explicit path to crackdown.config.ts, overriding directory walk"
       },
       {
         "id": "4",
@@ -37,7 +37,7 @@
       },
       {
         "id": "7",
-        "title": "Stdin mode: `cat file.md | marky lint -` pipes content through the linter"
+        "title": "Stdin mode: `cat file.md | crackdown lint -` pipes content through the linter"
       },
       {
         "id": "8",

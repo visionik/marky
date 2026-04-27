@@ -9,7 +9,7 @@ import { visit } from 'unist-util-visit'
  * Decreasing levels (H3 → H1) are permitted.
  */
 export const md001Rule = lintRule<Root, []>(
-  { origin: 'marky:heading-increment', url: undefined },
+  { origin: 'crackdown:heading-increment', url: undefined },
   (tree, file) => {
     const levels: number[] = []
 

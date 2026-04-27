@@ -9,7 +9,7 @@ async function makeTempDir(): Promise<string> {
 }
 
 describe('loadConfig', () => {
-  it('returns an empty config when marky.config.ts is not present', async () => {
+  it('returns an empty config when crackdown.config.ts is not present', async () => {
     const dir = await makeTempDir()
     try {
       const config = await loadConfig(dir)
@@ -19,14 +19,14 @@ describe('loadConfig', () => {
     }
   })
 
-  it('loads marky.config.ts found in the given cwd', async () => {
+  it('loads crackdown.config.ts found in the given cwd', async () => {
     const dir = await makeTempDir()
     try {
       const configSource = `export default {
   rules: { 'remark-lint:no-heading-punctuation': 'error' },
   plugins: [],
 }\n`
-      await writeFile(join(dir, 'marky.config.ts'), configSource)
+      await writeFile(join(dir, 'crackdown.config.ts'), configSource)
       const config = await loadConfig(dir)
       expect(config.rules).toEqual({
         'remark-lint:no-heading-punctuation': 'error',
@@ -37,7 +37,7 @@ describe('loadConfig', () => {
     }
   })
 
-  it('walks up the directory tree to find marky.config.ts', async () => {
+  it('walks up the directory tree to find crackdown.config.ts', async () => {
     const dir = await makeTempDir()
     try {
       const sub = join(dir, 'a', 'b', 'c')
@@ -45,7 +45,7 @@ describe('loadConfig', () => {
       const configSource = `export default {
   rules: { 'walked:rule': 'warn' },
 }\n`
-      await writeFile(join(dir, 'marky.config.ts'), configSource)
+      await writeFile(join(dir, 'crackdown.config.ts'), configSource)
       const config = await loadConfig(sub)
       expect(config.rules).toEqual({ 'walked:rule': 'warn' })
     } finally {
@@ -56,8 +56,8 @@ describe('loadConfig', () => {
   it('throws a descriptive error when the config default export is not an object', async () => {
     const dir = await makeTempDir()
     try {
-      await writeFile(join(dir, 'marky.config.ts'), `export default 'not-an-object'\n`)
-      await expect(loadConfig(dir)).rejects.toThrow(/marky\.config\.ts/)
+      await writeFile(join(dir, 'crackdown.config.ts'), `export default 'not-an-object'\n`)
+      await expect(loadConfig(dir)).rejects.toThrow(/crackdown\.config\.ts/)
     } finally {
       await rm(dir, { recursive: true, force: true })
     }
@@ -67,7 +67,7 @@ describe('loadConfig', () => {
     const dir = await makeTempDir()
     try {
       await writeFile(
-        join(dir, 'marky.config.ts'),
+        join(dir, 'crackdown.config.ts'),
         `export default { rules: { 'a:b': 'sometimes' } }\n`,
       )
       await expect(loadConfig(dir)).rejects.toThrow(/severity/i)
@@ -79,7 +79,7 @@ describe('loadConfig', () => {
   it('throws a descriptive error when plugins is not an array', async () => {
     const dir = await makeTempDir()
     try {
-      await writeFile(join(dir, 'marky.config.ts'), `export default { plugins: 'oops' }\n`)
+      await writeFile(join(dir, 'crackdown.config.ts'), `export default { plugins: 'oops' }\n`)
       await expect(loadConfig(dir)).rejects.toThrow(/plugins/i)
     } finally {
       await rm(dir, { recursive: true, force: true })
@@ -89,7 +89,7 @@ describe('loadConfig', () => {
   it('returns an empty config when the default export is null', async () => {
     const dir = await makeTempDir()
     try {
-      await writeFile(join(dir, 'marky.config.ts'), `export default null\n`)
+      await writeFile(join(dir, 'crackdown.config.ts'), `export default null\n`)
       const config = await loadConfig(dir)
       expect(config).toEqual({})
     } finally {

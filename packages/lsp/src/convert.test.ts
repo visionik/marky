@@ -1,14 +1,14 @@
 import { describe, it, expect } from 'vitest'
 import { DiagnosticSeverity } from 'vscode-languageserver'
 import { lintResultToDiagnostics, violationToDiagnostic } from './convert.js'
-import type { LintResult } from '@marky/core'
+import type { LintResult } from '@crackdown/core'
 
 const EMPTY_RESULT: LintResult = { file: 'test.md', violations: [] }
 
 describe('violationToDiagnostic', () => {
   it('maps line and column to 0-indexed LSP positions', () => {
     const diag = violationToDiagnostic({
-      ruleId: 'marky:test',
+      ruleId: 'crackdown:test',
       message: 'Test message',
       line: 3,
       column: 5,
@@ -22,7 +22,7 @@ describe('violationToDiagnostic', () => {
 
   it('maps severity "error" to DiagnosticSeverity.Error', () => {
     const diag = violationToDiagnostic({
-      ruleId: 'marky:test',
+      ruleId: 'crackdown:test',
       message: 'error',
       line: 1,
       column: 1,
@@ -33,7 +33,7 @@ describe('violationToDiagnostic', () => {
 
   it('maps severity "warn" to DiagnosticSeverity.Warning', () => {
     const diag = violationToDiagnostic({
-      ruleId: 'marky:test',
+      ruleId: 'crackdown:test',
       message: 'warn',
       line: 1,
       column: 1,
@@ -44,13 +44,13 @@ describe('violationToDiagnostic', () => {
 
   it('uses ruleId as the diagnostic source', () => {
     const diag = violationToDiagnostic({
-      ruleId: 'marky:no-trailing-spaces',
+      ruleId: 'crackdown:no-trailing-spaces',
       message: 'test',
       line: 1,
       column: 1,
       severity: 'warn',
     })
-    expect(diag.source).toBe('marky:no-trailing-spaces')
+    expect(diag.source).toBe('crackdown:no-trailing-spaces')
   })
 
   it('uses message as the diagnostic message', () => {

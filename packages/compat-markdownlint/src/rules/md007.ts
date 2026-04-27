@@ -13,7 +13,7 @@ export interface Md007Options {
  * `indent` spaces (default: 2). Ordered lists are not checked.
  */
 export const md007Rule = lintRule<Root, Md007Options>(
-  { origin: 'marky:unordered-list-indent', url: undefined },
+  { origin: 'crackdown:unordered-list-indent', url: undefined },
   (tree, file, options) => {
     const expected = options?.indent ?? 2
 

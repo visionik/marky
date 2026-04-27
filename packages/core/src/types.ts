@@ -25,7 +25,7 @@ export interface LintResult {
   violations: LintViolation[]
 }
 
-/** A unified/remark plugin that can be used as a marky lint rule. */
+/** A unified/remark plugin that can be used as a crackdown lint rule. */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Plugin = UnifiedPlugin<any[], any>
 

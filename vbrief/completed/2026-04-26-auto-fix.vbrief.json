@@ -21,15 +21,15 @@
       },
       {
         "id": "3",
-        "title": "`marky lint --fix` rewrites files in place using remark-stringify; prints count of fixed violations and remaining unfixable ones"
+        "title": "`crackdown lint --fix` rewrites files in place using remark-stringify; prints count of fixed violations and remaining unfixable ones"
       },
       {
         "id": "4",
-        "title": "Dry-run mode: `marky lint --fix --dry-run` shows what would change without writing files"
+        "title": "Dry-run mode: `crackdown lint --fix --dry-run` shows what would change without writing files"
       },
       {
         "id": "5",
-        "title": "MD009 trailing-spaces auto-fixer implemented in @marky/core or new @marky/rules package"
+        "title": "MD009 trailing-spaces auto-fixer implemented in @crackdown/core or new @marky/rules package"
       },
       {
         "id": "6",

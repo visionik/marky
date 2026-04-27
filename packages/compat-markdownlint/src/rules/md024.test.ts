@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md024Rule } from './md024.js'
 
 describe('md024Rule — no duplicate heading content', () => {

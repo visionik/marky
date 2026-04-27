@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { Readable, Writable } from 'node:stream'
 import { run } from './cli.js'
-import type { LintResult } from '@marky/core'
+import type { LintResult } from '@crackdown/core'
 
 interface CapturedIO {
   stdout: string
@@ -47,7 +47,7 @@ async function makeTempDir(): Promise<string> {
   return mkdtemp(join(tmpdir(), 'marky-cli-test-'))
 }
 
-describe('marky lint — integration', () => {
+describe('crackdown lint — integration', () => {
   it('exits 0 for a clean Markdown file', async () => {
     const dir = await makeTempDir()
     try {
@@ -69,7 +69,7 @@ describe('marky lint — integration', () => {
       const file = join(dir, 'bad.md')
       await writeFile(file, '# Hello\n')
 
-      // Inline plugin via marky.config.ts: emits a message that the rule
+      // Inline plugin via crackdown.config.ts: emits a message that the rule
       // config bumps to "error" severity, triggering a non-zero exit.
       const config = `export default {
   plugins: [
@@ -81,7 +81,7 @@ describe('marky lint — integration', () => {
   ],
   rules: { 'test:always': 'error' },
 }\n`
-      await writeFile(join(dir, 'marky.config.ts'), config)
+      await writeFile(join(dir, 'crackdown.config.ts'), config)
 
       const { io, captured } = makeIO()
       io.cwd = dir
@@ -207,12 +207,12 @@ describe('marky lint — integration', () => {
     try {
       const file = join(dir, 'a.md')
       await writeFile(file, '# A\n')
-      await writeFile(join(dir, 'marky.config.ts'), `export default 'not-an-object'\n`)
+      await writeFile(join(dir, 'crackdown.config.ts'), `export default 'not-an-object'\n`)
       const { io, captured } = makeIO()
       io.cwd = dir
       const code = await run(['lint', file], io)
       expect(code).toBe(1)
-      expect(captured.stderr).toContain('marky.config.ts')
+      expect(captured.stderr).toContain('crackdown.config.ts')
     } finally {
       await rm(dir, { recursive: true, force: true })
     }
@@ -240,7 +240,7 @@ describe('marky lint — integration', () => {
   })
 })
 
-describe('marky lint --fix', () => {
+describe('crackdown lint --fix', () => {
   it('rewrites file content and exits 0 when all violations are fixed', async () => {
     const dir = await makeTempDir()
     try {
@@ -248,7 +248,7 @@ describe('marky lint --fix', () => {
       await writeFile(file, 'hello   \nworld\n')
       // Inline plugin + fixer: plugin detects trailing spaces so fixedCount is tracked
       await writeFile(
-        join(dir, 'marky.config.ts'),
+        join(dir, 'crackdown.config.ts'),
         `export default {
   plugins: [
     () => (_tree, vfile) => {
@@ -279,7 +279,7 @@ describe('marky lint --fix', () => {
       const original = 'hello   \nworld\n'
       await writeFile(file, original)
       await writeFile(
-        join(dir, 'marky.config.ts'),
+        join(dir, 'crackdown.config.ts'),
         `export default {
   plugins: [
     () => (_tree, vfile) => {
@@ -310,7 +310,7 @@ describe('marky lint --fix', () => {
       const file = join(dir, 'a.md')
       await writeFile(file, '# Hello\n')
       await writeFile(
-        join(dir, 'marky.config.ts'),
+        join(dir, 'crackdown.config.ts'),
         `export default {
   plugins: [
     () => (_tree, file) => {

@@ -10,17 +10,17 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument'
 import { watch, type FSWatcher } from 'node:fs'
 import { join } from 'node:path'
-import { loadConfig, type MarkyConfig } from '@marky/core'
+import { loadConfig, type MarkyConfig } from '@crackdown/core'
 import { validateMarkdown, workspaceRootFromUri } from './validate.js'
 
 /** Debounce delay for as-you-type validation (ms). */
 const DEBOUNCE_MS = 300
 
 /** Marky config filename that triggers a reload when changed. */
-const CONFIG_FILENAME = 'marky.config.ts'
+const CONFIG_FILENAME = 'crackdown.config.ts'
 
 /**
- * Create and attach a marky LSP server to the given connection.
+ * Create and attach a crackdown LSP server to the given connection.
  *
  * @param connection - The LSP connection (stdio, node-ipc, etc.)
  * @returns A `dispose` function that tears down the server cleanly.
@@ -45,7 +45,7 @@ export function createServer(connection: Connection): () => void {
     return configCache.get(root) ?? {}
   }
 
-  /** Watch marky.config.ts and invalidate the cache on change. */
+  /** Watch crackdown.config.ts and invalidate the cache on change. */
   function watchConfig(root: string): void {
     if (watchers.has(root)) return
     const configPath = join(root, CONFIG_FILENAME)
@@ -98,7 +98,7 @@ export function createServer(connection: Connection): () => void {
           codeActionKinds: [CodeActionKind.QuickFix],
         },
       },
-      serverInfo: { name: 'marky', version: '0.1.0' },
+      serverInfo: { name: 'crackdown', version: '0.1.0' },
     }),
   )
 
@@ -125,7 +125,7 @@ export function createServer(connection: Connection): () => void {
   })
 
   // codeAction provider: placeholder — actual quick-fix actions depend on
-  // the fixers registered in marky.config.ts and are resolved at action time.
+  // the fixers registered in crackdown.config.ts and are resolved at action time.
   connection.onCodeAction((params): (CodeAction | Command)[] => {
     // For each error/warning in the requested range, offer a generic
     // "Run marky --fix" action. Full per-rule fixers will be wired in
@@ -133,12 +133,12 @@ export function createServer(connection: Connection): () => void {
     const actions: CodeAction[] = []
     for (const diag of params.context.diagnostics) {
       actions.push({
-        title: `marky: fix '${diag.source ?? 'violation'}'`,
+        title: `crackdown: fix '${diag.source ?? 'violation'}'`,
         kind: CodeActionKind.QuickFix,
         diagnostics: [diag],
         isPreferred: false,
         // Actual workspace edits will be populated when fix transformers
-        // are exposed via the @marky/core programmatic API.
+        // are exposed via the @crackdown/core programmatic API.
       })
     }
     return actions

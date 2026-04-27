@@ -5,10 +5,10 @@
     "created": "2026-04-26T17:13:39Z"
   },
   "plan": {
-    "title": "Config system (marky.config.ts)",
+    "title": "Config system (crackdown.config.ts)",
     "status": "completed",
     "narratives": {
-      "Overview": "Implement config loading from marky.config.ts (TypeScript-first). The config file exports a MarkyConfig object defining which rules are enabled, their severity, and which plugins to load. Config is resolved relative to the working directory at lint time. Covers FR-4."
+      "Overview": "Implement config loading from crackdown.config.ts (TypeScript-first). The config file exports a MarkyConfig object defining which rules are enabled, their severity, and which plugins to load. Config is resolved relative to the working directory at lint time. Covers FR-4."
     },
     "items": [
       {
@@ -17,15 +17,15 @@
       },
       {
         "id": "2",
-        "title": "loadConfig(cwd: string): Promise<MarkyConfig> resolves marky.config.ts via dynamic import, falls back to empty config if file not present"
+        "title": "loadConfig(cwd: string): Promise<MarkyConfig> resolves crackdown.config.ts via dynamic import, falls back to empty config if file not present"
       },
       {
         "id": "3",
-        "title": "Config lookup walks up the directory tree until marky.config.ts is found or root is reached"
+        "title": "Config lookup walks up the directory tree until crackdown.config.ts is found or root is reached"
       },
       {
         "id": "4",
-        "title": "Example marky.config.ts committed to repo root documenting all config options"
+        "title": "Example crackdown.config.ts committed to repo root documenting all config options"
       },
       {
         "id": "5",

@@ -37,7 +37,7 @@ async function makeTempDir(): Promise<string> {
   return mkdtemp(join(tmpdir(), 'marky-migrate-test-'))
 }
 
-describe('marky migrate', () => {
+describe('crackdown migrate', () => {
   it('reports supported and unsupported rules from a .markdownlintrc', async () => {
     const dir = await makeTempDir()
     try {
@@ -72,15 +72,15 @@ describe('marky migrate', () => {
     }
   })
 
-  it('generates a marky.config.ts file in the output directory', async () => {
+  it('generates a crackdown.config.ts file in the output directory', async () => {
     const dir = await makeTempDir()
     try {
       await writeFile(join(dir, '.markdownlintrc'), JSON.stringify({ MD013: true, MD041: true }))
       const { io } = captureIO()
       io.cwd = dir
       await run(['migrate', join(dir, '.markdownlintrc')], io)
-      const config = await readFile(join(dir, 'marky.config.ts'), 'utf8')
-      expect(config).toContain('@marky/compat-markdownlint')
+      const config = await readFile(join(dir, 'crackdown.config.ts'), 'utf8')
+      expect(config).toContain('@crackdown/compat-markdownlint')
       expect(config).toContain('md013Rule')
       expect(config).toContain('md041Rule')
       expect(config).toContain('export default')

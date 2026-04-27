@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { formatJson } from './json.js'
-import type { LintResult } from '@marky/core'
+import type { LintResult } from '@crackdown/core'
 
 const sample: LintResult[] = [
   {

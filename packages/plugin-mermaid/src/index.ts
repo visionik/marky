@@ -1,4 +1,4 @@
-// @marky/plugin-mermaid — Mermaid diagram validation plugin
+// @crackdown/plugin-mermaid — Mermaid diagram validation plugin
 //
 // Visits fenced code blocks tagged with `mermaid` and validates their
 // content using @mermaid-js/parser. Parse failures are reported as lint
@@ -10,7 +10,7 @@ import type { Code, Root } from 'mdast'
 import { parse } from '@mermaid-js/parser'
 import type { MermaidParseError } from '@mermaid-js/parser'
 
-export const PLUGIN_NAME = 'marky-lint-mermaid'
+export const PLUGIN_NAME = 'crackdown-lint-mermaid'
 
 /** Diagram types supported by @mermaid-js/parser v1. */
 type DiagramType =
@@ -71,11 +71,11 @@ const parseAny = parse as (type: DiagramType, text: string) => Promise<unknown>
 /**
  * remark-lint rule that validates fenced ```mermaid``` code blocks using
  * `@mermaid-js/parser`. Parse errors are reported as messages with
- * `ruleId = "mermaid-syntax"` and `source = "marky"`, which `@marky/core`
+ * `ruleId = "mermaid-syntax"` and `source = "crackdown"`, which `@crackdown/core`
  * surfaces as `marky:mermaid-syntax`.
  */
 export const remarkLintMermaid = lintRule(
-  { origin: 'marky:mermaid-syntax', url: undefined },
+  { origin: 'crackdown:mermaid-syntax', url: undefined },
   async (tree: Root, file): Promise<void> => {
     const blocks: Code[] = []
     visit(tree, 'code', (node: Code) => {

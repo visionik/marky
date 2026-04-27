@@ -1,7 +1,7 @@
 /**
- * @marky/vscode — VS Code extension for the marky Markdown linter.
+ * @crackdown/vscode — VS Code extension for the crackdown Markdown linter.
  *
- * Activates for Markdown files and spawns @marky/lsp as a child process
+ * Activates for Markdown files and spawns @crackdown/lsp as a child process
  * over stdio, then connects to it via vscode-languageclient.
  */
 import type { ExtensionContext } from 'vscode'
@@ -15,11 +15,11 @@ import * as path from 'node:path'
 
 let client: LanguageClient | undefined
 
-/** Resolve the path to the marky-lsp binary from this extension. */
+/** Resolve the path to the crackdown-lsp binary from this extension. */
 function resolveLspBin(): string {
   // In a bundled CJS VS Code extension, __dirname is the dist/ folder.
-  // @marky/lsp is a workspace sibling resolved via the package's node_modules.
-  const lspPkg = (require as NodeRequire).resolve('@marky/lsp/package.json') as string
+  // @crackdown/lsp is a workspace sibling resolved via the package's node_modules.
+  const lspPkg = (require as NodeRequire).resolve('@crackdown/lsp/package.json') as string
   const lspDir = path.dirname(lspPkg)
   return path.join(lspDir, 'dist', 'bin.js')
 }
@@ -39,11 +39,16 @@ export function activate(context: ExtensionContext): void {
   const clientOptions: LanguageClientOptions = {
     documentSelector: [{ scheme: 'file', language: 'markdown' }],
     synchronize: {
-      fileEvents: undefined, // marky-lsp watches marky.config.ts internally
+      fileEvents: undefined, // crackdown-lsp watches crackdown.config.ts internally
     },
   }
 
-  client = new LanguageClient('marky', 'marky Markdown Linter', serverOptions, clientOptions)
+  client = new LanguageClient(
+    'crackdown',
+    'crackdown Markdown Linter',
+    serverOptions,
+    clientOptions,
+  )
   void client.start()
   context.subscriptions.push({ dispose: () => void client?.stop() })
 }

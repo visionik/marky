@@ -4,21 +4,21 @@ import starlight from '@astrojs/starlight'
 
 export default defineConfig({
   site: 'https://visionik.github.io',
-  base: '/marky',
+  base: '/crackdown',
   integrations: [
     starlight({
-      title: 'marky',
+      title: 'crackdown',
       description:
         'An extensible, plugin-based Markdown linter with first-class Mermaid diagram validation.',
       social: [
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/visionik/marky',
+          href: 'https://github.com/visionik/crackdown',
         },
       ],
       editLink: {
-        baseUrl: 'https://github.com/visionik/marky/edit/main/docs/',
+        baseUrl: 'https://github.com/visionik/crackdown/edit/main/docs/',
       },
       sidebar: [
         {

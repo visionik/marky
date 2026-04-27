@@ -8,7 +8,7 @@ import { visit } from 'unist-util-visit'
  * Reports every H1 after the first one found.
  */
 export const md025Rule = lintRule<Root, []>(
-  { origin: 'marky:single-top-level-heading', url: undefined },
+  { origin: 'crackdown:single-top-level-heading', url: undefined },
   (tree, file) => {
     let seen = false
     visit(tree, 'heading', (node: Heading) => {

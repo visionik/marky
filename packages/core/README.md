@@ -1,4 +1,4 @@
-# @marky/core
+# @crackdown/core
 
 The lint pipeline that powers the [marky](https://github.com/deftco/marky)
 CLI. You can also use it directly as a Node.js library inside build tools,
@@ -7,16 +7,16 @@ editors, or other automation.
 ## Install
 
 ```bash
-pnpm add @marky/core
+pnpm add @crackdown/core
 ```
 
 ## Programmatic API
 
-`@marky/core` exposes two main entry points: `lint` for files on disk and
+`@crackdown/core` exposes two main entry points: `lint` for files on disk and
 `lintString` for in-memory content. Both accept an optional `MarkyConfig`.
 
 ```ts
-import { lint, lintString, type MarkyConfig } from '@marky/core'
+import { lint, lintString, type MarkyConfig } from '@crackdown/core'
 
 const config: MarkyConfig = {
   rules: {
@@ -36,13 +36,13 @@ const single = await lintString('# Hello!\n', config, 'README.md')
 console.log(single.violations)
 ```
 
-### Loading configuration from `marky.config.ts`
+### Loading configuration from `crackdown.config.ts`
 
 `loadConfig(cwd)` walks up the directory tree from `cwd` looking for a
-`marky.config.ts` file and returns an empty config if none is found.
+`crackdown.config.ts` file and returns an empty config if none is found.
 
 ```ts
-import { loadConfig, lint } from '@marky/core'
+import { loadConfig, lint } from '@crackdown/core'
 
 const config = await loadConfig(process.cwd())
 const results = await lint(['README.md'], config)
@@ -53,7 +53,7 @@ const results = await lint(['README.md'], config)
 - `lint(files, config?)` — lint a list of files
 - `lintString(content, config?, filename?)` — lint a Markdown string
 - `lintFile(file, config?)` — lint a single file
-- `loadConfig(cwd)` — locate and load `marky.config.ts`
+- `loadConfig(cwd)` — locate and load `crackdown.config.ts`
 - `loadConfigFromFile(path)` — load a specific config file
 - Types: `MarkyConfig`, `LintResult`, `LintViolation`, `Plugin`, `Severity`,
   `RuleSeverity`

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md005Rule } from './md005.js'
 
 describe('md005Rule — consistent list indentation per level', () => {

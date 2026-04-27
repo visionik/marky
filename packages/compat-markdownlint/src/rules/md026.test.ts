@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md026Rule } from './md026.js'
 
 describe('md026Rule — no trailing punctuation in headings', () => {

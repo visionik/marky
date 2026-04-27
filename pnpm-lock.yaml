@@ -8,13 +8,13 @@ importers:
 
   .:
     devDependencies:
-      '@marky/cli':
+      '@crackdown/cli':
         specifier: workspace:*
         version: link:packages/cli
-      '@marky/compat-markdownlint':
+      '@crackdown/compat-markdownlint':
         specifier: workspace:*
         version: link:packages/compat-markdownlint
-      '@marky/core':
+      '@crackdown/core':
         specifier: workspace:*
         version: link:packages/core
       '@vitest/coverage-v8':
@@ -41,7 +41,7 @@ importers:
 
   packages/cli:
     dependencies:
-      '@marky/core':
+      '@crackdown/core':
         specifier: workspace:*
         version: link:../core
       chalk:
@@ -57,7 +57,7 @@ importers:
 
   packages/compat-markdownlint:
     dependencies:
-      '@marky/core':
+      '@crackdown/core':
         specifier: workspace:*
         version: link:../core
       unified-lint-rule:
@@ -110,7 +110,7 @@ importers:
 
   packages/lsp:
     dependencies:
-      '@marky/core':
+      '@crackdown/core':
         specifier: workspace:*
         version: link:../core
       vscode-languageserver:
@@ -141,7 +141,7 @@ importers:
 
   packages/plugin-mermaid:
     dependencies:
-      '@marky/core':
+      '@crackdown/core':
         specifier: workspace:*
         version: link:../core
       '@mermaid-js/parser':
@@ -163,7 +163,7 @@ importers:
 
   packages/vscode:
     dependencies:
-      '@marky/lsp':
+      '@crackdown/lsp':
         specifier: workspace:*
         version: link:../lsp
       vscode:

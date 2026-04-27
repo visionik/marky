@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md041Rule } from './md041.js'
 
 describe('md041Rule — first line heading', () => {

@@ -1,3 +1,3 @@
-# marky — Agent Instructions
+# crackdown — Agent Instructions
 
 see directive/main.md

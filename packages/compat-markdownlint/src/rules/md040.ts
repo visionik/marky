@@ -9,7 +9,7 @@ import { visit } from 'unist-util-visit'
  * Indented code blocks are not flagged.
  */
 export const md040Rule = lintRule<Root, []>(
-  { origin: 'marky:fenced-code-language', url: undefined },
+  { origin: 'crackdown:fenced-code-language', url: undefined },
   (tree, file) => {
     const sourceLines = String(file).split(/\r?\n/)
     visit(tree, 'code', (node: Code) => {

@@ -1,4 +1,4 @@
-import type { LintResult } from '@marky/core'
+import type { LintResult } from '@crackdown/core'
 
 /**
  * Format an array of {@link LintResult} as a pretty-printed JSON string.

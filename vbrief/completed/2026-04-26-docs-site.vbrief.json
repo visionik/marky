@@ -17,7 +17,7 @@
       },
       {
         "id": "2",
-        "title": "Getting Started page: install, 60-second usage, marky.config.ts example"
+        "title": "Getting Started page: install, 60-second usage, crackdown.config.ts example"
       },
       {
         "id": "3",
@@ -25,11 +25,11 @@
       },
       {
         "id": "4",
-        "title": "Plugin authoring guide: how to write a unified-lint-rule and register it in marky.config.ts"
+        "title": "Plugin authoring guide: how to write a unified-lint-rule and register it in crackdown.config.ts"
       },
       {
         "id": "5",
-        "title": "API reference: TypeDoc output integrated into Starlight for @marky/core public API"
+        "title": "API reference: TypeDoc output integrated into Starlight for @crackdown/core public API"
       },
       {
         "id": "6",

@@ -13,11 +13,11 @@ Add auto-fix capability to marky. Rules opt in by supplying a `fix` handler that
 
 ### 2: `lintString` / `lintFile` gain a `fix: boolean` option; when true, run fix transformers and return patched content alongside violations
 
-### 3: `marky lint --fix` rewrites files in place using remark-stringify; prints count of fixed violations and remaining unfixable ones
+### 3: `crackdown lint --fix` rewrites files in place using remark-stringify; prints count of fixed violations and remaining unfixable ones
 
-### 4: Dry-run mode: `marky lint --fix --dry-run` shows what would change without writing files
+### 4: Dry-run mode: `crackdown lint --fix --dry-run` shows what would change without writing files
 
-### 5: MD009 trailing-spaces auto-fixer implemented in @marky/core or new @marky/rules package
+### 5: MD009 trailing-spaces auto-fixer implemented in @crackdown/core or new @marky/rules package
 
 ### 6: MD010 hard-tabs auto-fixer implemented
 
@@ -33,13 +33,13 @@ Build the marky documentation site using Astro Starlight. Covers getting started
 
 ### 1: New `docs/` Astro Starlight site scaffolded with marky branding
 
-### 2: Getting Started page: install, 60-second usage, marky.config.ts example
+### 2: Getting Started page: install, 60-second usage, crackdown.config.ts example
 
 ### 3: CLI reference: all commands, flags, and exit codes documented
 
-### 4: Plugin authoring guide: how to write a unified-lint-rule and register it in marky.config.ts
+### 4: Plugin authoring guide: how to write a unified-lint-rule and register it in crackdown.config.ts
 
-### 5: API reference: TypeDoc output integrated into Starlight for @marky/core public API
+### 5: API reference: TypeDoc output integrated into Starlight for @crackdown/core public API
 
 ### 6: markdownlint migration guide: maps common .markdownlintrc rules to marky equivalents
 
@@ -53,37 +53,37 @@ Build the marky documentation site using Astro Starlight. Covers getting started
 
 ## Language Server Protocol (LSP) integration
 
-Wrap the @marky/core pipeline in an LSP server so editors can show inline lint diagnostics without a separate plugin. New @marky/lsp package using vscode-languageserver. Ships with a VS Code extension as a thin wrapper. Depends on auto-fix scope for the codeAction/fix capability.
+Wrap the @crackdown/core pipeline in an LSP server so editors can show inline lint diagnostics without a separate plugin. New @crackdown/lsp package using vscode-languageserver. Ships with a VS Code extension as a thin wrapper. Depends on auto-fix scope for the codeAction/fix capability.
 
-### 1: New `packages/lsp` workspace package (@marky/lsp) with vscode-languageserver dependency
+### 1: New `packages/lsp` workspace package (@crackdown/lsp) with vscode-languageserver dependency
 
 ### 2: LSP server: onDidOpen and onDidSave trigger lintString; publishes textDocument/publishDiagnostics
 
 ### 3: Debounced onDidChange handler (300ms) for as-you-type feedback
 
-### 4: Config reload: watches marky.config.ts for changes and re-runs lint without server restart
+### 4: Config reload: watches crackdown.config.ts for changes and re-runs lint without server restart
 
 ### 5: codeAction provider: surfaces auto-fixable violations as quick-fix actions (depends on auto-fix scope)
 
-### 6: New `packages/vscode` workspace package: VS Code extension that spawns @marky/lsp as a child process
+### 6: New `packages/vscode` workspace package: VS Code extension that spawns @crackdown/lsp as a child process
 
-### 7: `marky lsp` CLI command starts the LSP server over stdio for editor integration (Neovim, Zed, etc.)
+### 7: `crackdown lsp` CLI command starts the LSP server over stdio for editor integration (Neovim, Zed, etc.)
 
 ### 8: Tests: LSP server emits correct diagnostics for known violations; clean file emits empty diagnostics array
 
-### 9: task check passes at >= 85% coverage for @marky/lsp
+### 9: task check passes at >= 85% coverage for @crackdown/lsp
 
 ---
 
-## Rule porting tool (marky migrate) + expanded compat coverage
+## Rule porting tool (crackdown migrate) + expanded compat coverage
 
-Lower the migration barrier from markdownlint. Adds `marky migrate <config>` CLI command that reads an existing .markdownlintrc and reports which rules have marky equivalents, which are unsupported, and what manual steps remain. Also expands @marky/compat-markdownlint with 4+ additional rule shims.
+Lower the migration barrier from markdownlint. Adds `crackdown migrate <config>` CLI command that reads an existing .markdownlintrc and reports which rules have marky equivalents, which are unsupported, and what manual steps remain. Also expands @crackdown/compat-markdownlint with 4+ additional rule shims.
 
-### 1: `marky migrate <config-path>` command: reads .markdownlintrc/.markdownlint.json, outputs a migration report (supported, unsupported, manual-review)
+### 1: `crackdown migrate <config-path>` command: reads .markdownlintrc/.markdownlint.json, outputs a migration report (supported, unsupported, manual-review)
 
-### 2: Migration report includes a generated marky.config.ts snippet with all supported rules pre-wired
+### 2: Migration report includes a generated crackdown.config.ts snippet with all supported rules pre-wired
 
-### 3: MD001 (heading-increment) rule shim added to @marky/compat-markdownlint
+### 3: MD001 (heading-increment) rule shim added to @crackdown/compat-markdownlint
 
 ### 4: MD009 (trailing-spaces) rule shim added (read-only; fix provided by auto-fix scope)
 
@@ -101,7 +101,7 @@ Lower the migration barrier from markdownlint. Adds `marky migrate <config>` CLI
 
 - CLI entry point and reporters -- `[completed]`
 - markdownlint compatibility layer (packages/compat-markdownlint) -- `[completed]`
-- Config system (marky.config.ts) -- `[completed]`
+- Config system (crackdown.config.ts) -- `[completed]`
 - Core lint pipeline (packages/core) -- `[completed]`
 - Monorepo scaffold and toolchain -- `[completed]`
 - Mermaid validation plugin (packages/plugin-mermaid) -- `[completed]`

@@ -7,7 +7,7 @@
     "updated": "2026-04-26T20:10:02Z"
   },
   "plan": {
-    "title": "marky",
+    "title": "crackdown",
     "status": "running",
     "narratives": {
       "Overview": "marky (marklint) — an extensible, plugin-based Markdown linter built on the unified/remark ecosystem. Analyzes Markdown via mdast (Markdown Abstract Syntax Tree), supports reuse of markdownlint and remark-lint rules, provides a first-class plugin system, and ships with a production-grade Mermaid diagram validation plugin.",
@@ -48,7 +48,7 @@
       },
       {
         "id": "2026-04-26-rule-porting-tool",
-        "title": "Rule porting tool (marky migrate) + expanded compat coverage",
+        "title": "Rule porting tool (crackdown migrate) + expanded compat coverage",
         "status": "pending",
         "metadata": {
           "source_path": "pending/2026-04-26-rule-porting-tool.vbrief.json",
@@ -75,7 +75,7 @@
       },
       {
         "id": "2026-04-26-config-system",
-        "title": "Config system (marky.config.ts)",
+        "title": "Config system (crackdown.config.ts)",
         "status": "completed",
         "metadata": {
           "source_path": "completed/2026-04-26-config-system.vbrief.json",

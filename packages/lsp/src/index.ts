@@ -1,4 +1,4 @@
-// @marky/lsp — LSP server for the marky Markdown linter
+// @crackdown/lsp — LSP server for the crackdown Markdown linter
 
 export { createServer } from './server.js'
 export { validateMarkdown, workspaceRootFromUri } from './validate.js'

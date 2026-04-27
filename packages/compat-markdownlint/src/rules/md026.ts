@@ -11,7 +11,7 @@ const TRAILING_PUNCTUATION = /[.,;:!?]$/
  * Reports headings whose text content ends with punctuation (., ,, ;, :, !, ?).
  */
 export const md026Rule = lintRule<Root, []>(
-  { origin: 'marky:no-trailing-punctuation', url: undefined },
+  { origin: 'crackdown:no-trailing-punctuation', url: undefined },
   (tree, file) => {
     visit(tree, 'heading', (node: Heading) => {
       const text = node.children

@@ -5,7 +5,7 @@ import type { Root, RootContent, Code } from 'mdast'
  * MD031 — Fenced code blocks should be surrounded by blank lines.
  */
 export const md031Rule = lintRule<Root, []>(
-  { origin: 'marky:blanks-around-fences', url: undefined },
+  { origin: 'crackdown:blanks-around-fences', url: undefined },
   (tree, file) => {
     const children = tree.children
     children.forEach((node: RootContent, index: number) => {

@@ -40,8 +40,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build @marky/core
-        run: pnpm --filter @marky/core build
+      - name: Build @crackdown/core
+        run: pnpm --filter @crackdown/core build
 
       - name: Run task check (fmt · lint · typecheck · test · coverage)
         run: task check

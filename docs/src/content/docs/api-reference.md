@@ -1,20 +1,20 @@
 ---
 title: API Reference
-description: Complete reference for the @marky/core programmatic API.
+description: Complete reference for the @crackdown/core programmatic API.
 ---
 
-All types and functions below are exported from `@marky/core`.
+All types and functions below are exported from `@crackdown/core`.
 
 ## Types
 
 ### `MarkyConfig`
 
-Configuration object for marky. Typically declared in `marky.config.ts`.
+Configuration object for marky. Typically declared in `crackdown.config.ts`.
 
 ```ts
 interface MarkyConfig {
   /**
-   * Per-rule severity overrides. Key: rule ID (e.g. 'marky:no-trailing-spaces').
+   * Per-rule severity overrides. Key: rule ID (e.g. 'crackdown:no-trailing-spaces').
    * Values: 'error' | 'warn' | 'off'
    */
   rules?: Record<string, RuleSeverity>
@@ -47,7 +47,7 @@ interface LintResult {
 
 ```ts
 interface LintViolation {
-  /** Rule identifier, e.g. 'marky:no-trailing-spaces' */
+  /** Rule identifier, e.g. 'crackdown:no-trailing-spaces' */
   ruleId: string
   /** Human-readable description. */
   message: string
@@ -153,7 +153,7 @@ function lintFileFix(
 
 ### `loadConfig(cwd)`
 
-Walk up the directory tree from `cwd` and load the nearest `marky.config.ts`.
+Walk up the directory tree from `cwd` and load the nearest `crackdown.config.ts`.
 Returns `{}` if no config is found.
 
 ```ts
@@ -162,7 +162,7 @@ function loadConfig(cwd: string): Promise<MarkyConfig>
 
 ### `loadConfigFromFile(configPath)`
 
-Load a specific `marky.config.ts` file via jiti (TypeScript evaluated at runtime).
+Load a specific `crackdown.config.ts` file via jiti (TypeScript evaluated at runtime).
 
 ```ts
 function loadConfigFromFile(configPath: string): Promise<MarkyConfig>
@@ -172,7 +172,7 @@ function loadConfigFromFile(configPath: string): Promise<MarkyConfig>
 
 ## Bundled rules
 
-Exported from `@marky/core`:
+Exported from `@crackdown/core`:
 
 | Export | Description |
 |---|---|

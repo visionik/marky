@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { md012Rule, md012Fixer } from './md012.js'
 
 describe('md012Rule — no multiple consecutive blank lines', () => {

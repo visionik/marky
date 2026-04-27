@@ -1,7 +1,7 @@
 import { type Diagnostic } from 'vscode-languageserver'
 import { URI } from 'vscode-uri'
 import { dirname } from 'node:path'
-import { lintString, type MarkyConfig } from '@marky/core'
+import { lintString, type MarkyConfig } from '@crackdown/core'
 import { lintResultToDiagnostics } from './convert.js'
 
 /**
@@ -11,7 +11,7 @@ import { lintResultToDiagnostics } from './convert.js'
  * @param uri - The LSP document URI (e.g. `file:///path/to/file.md`).
  * @param config - The resolved {@link MarkyConfig} to use for linting.
  *   When called from the server, this is loaded once per workspace root and
- *   refreshed when `marky.config.ts` changes.
+ *   refreshed when `crackdown.config.ts` changes.
  * @returns An array of LSP {@link Diagnostic} objects ready to publish.
  */
 export async function validateMarkdown(
@@ -27,7 +27,7 @@ export async function validateMarkdown(
 
 /**
  * Resolve the workspace root from a document URI.
- * Used to find `marky.config.ts` via `loadConfig`.
+ * Used to find `crackdown.config.ts` via `loadConfig`.
  */
 export function workspaceRootFromUri(uri: string): string {
   try {

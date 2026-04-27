@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { writeFile, mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { lintString } from '@marky/core'
+import { lintString } from '@crackdown/core'
 import { loadMarkdownlintConfig } from './compat.js'
 
 async function makeTempDir(): Promise<string> {
