@@ -57,6 +57,9 @@ jobs:
   lint-markdown:
     name: lint markdown
     runs-on: blacksmith-2vcpu-ubuntu-2404
+    permissions:
+      contents: read
+      security-events: write  # required for upload-sarif
 
     steps:
       - uses: actions/checkout@v4
@@ -82,5 +85,26 @@ jobs:
       - name: Build all packages
         run: pnpm -r build
 
-      - name: Lint Markdown with crackdown
+      - name: Lint Markdown with crackdown (pretty)
         run: task lint:docs
+
+      - name: Generate SARIF report
+        if: always()
+        run: |
+          node packages/cli/dist/bin.js lint \
+            .github/PULL_REQUEST_TEMPLATE.md \
+            agents.md \
+            CHANGELOG.md \
+            packages/compat-markdownlint/README.md \
+            packages/core/README.md \
+            ROADMAP.md \
+            --format sarif \
+            --repo-root ${{ github.workspace }} \
+            --output crackdown-results.sarif
+
+      - name: Upload SARIF to GitHub Code Scanning
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: crackdown-results.sarif
+          category: crackdown-markdown

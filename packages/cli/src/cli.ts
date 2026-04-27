@@ -17,6 +17,7 @@ import {
 import type { Readable, Writable } from 'node:stream'
 import { formatJson } from './reporters/json.js'
 import { formatPretty } from './reporters/pretty.js'
+import { formatSarif } from './reporters/sarif.js'
 
 /**
  * IO streams the CLI reads from / writes to. Defaults to the real
@@ -31,13 +32,16 @@ export interface RunIO {
 }
 
 interface LintOptions {
-  format: 'pretty' | 'json'
+  format: 'pretty' | 'json' | 'sarif'
   config?: string
   fix?: boolean
   dryRun?: boolean
+  output?: string
+  repoRoot?: string
+  concurrency?: string
 }
 
-const VALID_FORMATS = ['pretty', 'json'] as const
+const VALID_FORMATS = ['pretty', 'json', 'sarif'] as const
 
 async function readStream(stream: Readable): Promise<string> {
   let buf = ''
@@ -102,12 +106,31 @@ async function runLintAction(
     return runFixAction(paths, opts, config, io)
   }
 
-  const inputs = await collectResults(paths, config, io)
+  const inputs = await collectResults(paths, config, io, opts.concurrency)
   if (inputs === null) return 1
 
-  const out = opts.format === 'json' ? formatJson(inputs.results) : formatPretty(inputs.results)
-  io.stdout.write(out)
-  if (!out.endsWith('\n')) io.stdout.write('\n')
+  let out: string
+  if (opts.format === 'json') {
+    out = formatJson(inputs.results)
+  } else if (opts.format === 'sarif') {
+    const repoRoot = opts.repoRoot
+      ? isAbsolute(opts.repoRoot)
+        ? opts.repoRoot
+        : resolve(io.cwd, opts.repoRoot)
+      : undefined
+    out = formatSarif(inputs.results, repoRoot)
+  } else {
+    out = formatPretty(inputs.results)
+  }
+
+  if (opts.output) {
+    const outPath = isAbsolute(opts.output) ? opts.output : resolve(io.cwd, opts.output)
+    await writeFile(outPath, out, 'utf8')
+    io.stdout.write(`Wrote ${opts.format} report to ${outPath}\n`)
+  } else {
+    io.stdout.write(out)
+    if (!out.endsWith('\n')) io.stdout.write('\n')
+  }
 
   const hasError = inputs.results.some((r) => r.violations.some((v) => v.severity === 'error'))
   return hasError ? 1 : 0
@@ -185,7 +208,10 @@ async function collectResults(
   paths: string[],
   config: MarkyConfig,
   io: Required<Pick<RunIO, 'stdin' | 'stdout' | 'stderr' | 'cwd'>>,
+  concurrencyStr?: string,
 ): Promise<LintInputs | null> {
+  const concurrency = concurrencyStr ? parseInt(concurrencyStr, 10) : undefined
+
   if (paths.length === 1 && paths[0] === '-') {
     const content = await readStream(io.stdin)
     const result = await lintString(content, config, '<stdin>')
@@ -200,7 +226,7 @@ async function collectResults(
     }
     files.push(...(await expandPath(p, io.cwd)))
   }
-  return { results: await lint(files, config) }
+  return { results: await lint(files, config, concurrency) }
 }
 
 /**
@@ -244,6 +270,15 @@ export async function run(argv: string[], io: RunIO = {}): Promise<number> {
     .option('-c, --config <path>', 'explicit path to crackdown.config.ts')
     .option('--fix', 'apply auto-fixers and rewrite files in place')
     .option('--dry-run', 'with --fix, show what would change without writing')
+    .option(
+      '-o, --output <path>',
+      'write report to a file instead of stdout (useful with --format sarif)',
+    )
+    .option(
+      '--repo-root <path>',
+      'repository root for relative URIs in SARIF output (default: cwd)',
+    )
+    .option('--concurrency <n>', 'max files linted in parallel (default: 16)')
     .action(async (paths: string[], opts: LintOptions) => {
       actionExitCode = await runLintAction(paths, opts, ioFull)
     })
