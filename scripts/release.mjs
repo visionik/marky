@@ -54,15 +54,8 @@ for (const name of PACKAGES) {
   const pkgPath = join(ROOT, 'packages', name, 'package.json')
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
   pkg.version = nextVersion
-  // Also bump any workspace:* peer deps that reference our own packages
-  for (const dep of ['dependencies', 'devDependencies', 'peerDependencies']) {
-    if (!pkg[dep]) continue
-    for (const [k, v] of Object.entries(pkg[dep])) {
-      if (k.startsWith('@crackdown/') && v === 'workspace:*') {
-        pkg[dep][k] = `^${nextVersion}`
-      }
-    }
-  }
+  // Note: workspace:* cross-deps are intentionally left as-is.
+  // pnpm automatically converts them to the real version during publish.
   writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n')
   console.log(`  updated packages/${name}/package.json`)
 }
@@ -85,8 +78,12 @@ if (stamped === changelog) {
 
 // ── 6. Commit, tag, push ─────────────────────────────────────────────────────
 
+// Sync lockfile after version bumps
+execSync('pnpm install --no-frozen-lockfile', { cwd: ROOT, stdio: 'inherit' })
+console.log('  updated pnpm-lock.yaml')
+
 const tag = `v${nextVersion}`
-execSync('git add packages/*/package.json CHANGELOG.md', { cwd: ROOT, stdio: 'inherit' })
+execSync('git add packages/*/package.json pnpm-lock.yaml CHANGELOG.md', { cwd: ROOT, stdio: 'inherit' })
 execSync(
   `git -c user.email="release@crackdown.dev" -c user.name="crackdown-release" commit -m "chore(release): v${nextVersion}"`,
   { cwd: ROOT, stdio: 'inherit' },

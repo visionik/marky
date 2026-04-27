@@ -18,7 +18,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@crackdown/core": "^0.1.0",
+    "@crackdown/core": "workspace:*",
     "unified-lint-rule": "^3.0.1",
     "unist-util-visit": "^5.1.0"
   },

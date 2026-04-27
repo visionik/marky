@@ -20,7 +20,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@crackdown/core": "^0.1.0",
+    "@crackdown/core": "workspace:*",
     "chalk": "^5.6.2",
     "commander": "^14.0.3"
   },
