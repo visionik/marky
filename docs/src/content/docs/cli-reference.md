@@ -1,6 +1,6 @@
 ---
 title: CLI Reference
-description: Complete reference for all marky CLI commands, flags, and exit codes.
+description: Complete reference for all crackdown CLI commands, flags, and exit codes.
 ---
 
 The `crackdown` CLI is the primary entry point for linting Markdown files from the command line or CI pipelines.
@@ -74,7 +74,7 @@ crackdown migrate [config-path]
 
 | Argument | Description |
 |---|---|
-| `[config-path]` | Path to a `.markdownlintrc` or `.markdownlint.json` file. If omitted, marky looks for `.markdownlintrc` then `.markdownlint.json` in the current directory. |
+| `[config-path]` | Path to a `.markdownlintrc` or `.markdownlint.json` file. If omitted, crackdown looks for `.markdownlintrc` then `.markdownlint.json` in the current directory. |
 
 ### Output
 
@@ -107,7 +107,7 @@ Supported rules (will be migrated):
   ✓ MD047  →  md047Rule from @crackdown/compat-markdownlint  (Files should end with a single newline)
 
 Unsupported rules (require manual attention):
-  ✗ MD003  →  no marky equivalent yet
+  ✗ MD003  →  no crackdown equivalent yet
 
 Migration complete: 5 rules migrated, 1 rule requires manual attention.
 Generated: /project/crackdown.config.ts
@@ -119,7 +119,7 @@ Generated: /project/crackdown.config.ts
 
 ## `crackdown lsp`
 
-Start the marky Language Server over stdio.
+Start the crackdown Language Server over stdio.
 
 ```sh
 crackdown lsp
@@ -132,7 +132,7 @@ This command is intended for use by editor integrations. It starts the `@crackdo
 Neovim (via `nvim-lspconfig`):
 
 ```lua
-require('lspconfig').marky.setup({
+require('lspconfig').crackdown.setup({
   cmd = { 'crackdown', 'lsp' },
   filetypes = { 'markdown' },
 })

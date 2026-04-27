@@ -9,7 +9,7 @@ All types and functions below are exported from `@crackdown/core`.
 
 ### `MarkyConfig`
 
-Configuration object for marky. Typically declared in `crackdown.config.ts`.
+Configuration object for crackdown. Typically declared in `crackdown.config.ts`.
 
 ```ts
 interface MarkyConfig {

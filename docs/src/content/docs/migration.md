@@ -13,7 +13,7 @@ crackdown migrate .markdownlintrc
 
 This command:
 1. Reads your existing config file.
-2. Maps each enabled rule to its marky equivalent.
+2. Maps each enabled rule to its crackdown equivalent.
 3. Writes `crackdown.config.ts` alongside the config file.
 4. Prints a report with `✓ supported` and `✗ unsupported` rules.
 
@@ -21,7 +21,7 @@ This command:
 
 18 markdownlint rules are supported. `crackdown migrate` maps all of them automatically.
 
-| markdownlint rule | Status | marky equivalent | Package |
+| markdownlint rule | Status | crackdown equivalent | Package |
 |---|---|---|---|
 | MD001 (heading-increment) | ✅ | `md001Rule` | `@crackdown/compat-markdownlint` |
 | MD005 (list-indent) | ✅ | `md005Rule` | `@crackdown/compat-markdownlint` |
@@ -139,4 +139,4 @@ const config = await loadMarkdownlintConfig(process.cwd())
 const results = await lint(['README.md'], config)
 ```
 
-This is useful for tools that wrap marky and want to respect an existing markdownlint config.
+This is useful for tools that wrap crackdown and want to respect an existing markdownlint config.

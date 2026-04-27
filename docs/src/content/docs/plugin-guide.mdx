@@ -5,7 +5,7 @@ description: How to write a custom crackdown lint rule using unified-lint-rule a
 
 import { Steps, Aside } from '@astrojs/starlight/components'
 
-marky rules are [unified/remark plugins](https://unifiedjs.com/). Any plugin that calls `file.message()` on a VFile is a valid marky rule.
+crackdown rules are [unified/remark plugins](https://unifiedjs.com/). Any plugin that calls `file.message()` on a VFile is a valid crackdown rule.
 
 ## Anatomy of a rule
 
@@ -30,7 +30,7 @@ export const myRule = lintRule(
 
 Key parts:
 
-- **`origin`** — `namespace:rule-name`. marky surfaces this as `ruleId` in violations (e.g. `my-plugin:my-rule`).
+- **`origin`** — `namespace:rule-name`. crackdown surfaces this as `ruleId` in violations (e.g. `my-plugin:my-rule`).
 - **`url`** — optional link to documentation for this rule.
 - **`tree: Root`** — the mdast root. Use `unist-util-visit` to traverse nodes.
 - **`file`** — a VFile. Call `file.message(message, position?)` to report a warning. Use `file.fail()` for a fatal error (stops processing).
@@ -51,7 +51,7 @@ export default config
 
 ## Rule options (via plugin tuple)
 
-marky supports the unified `[plugin, options]` tuple convention:
+crackdown supports the unified `[plugin, options]` tuple convention:
 
 ```ts
 // my-configurable-rule.ts
@@ -116,7 +116,7 @@ When `crackdown lint --fix` runs:
 
 ## Available node types
 
-marky uses the full [mdast](https://github.com/syntax-tree/mdast) specification. Common node types:
+crackdown uses the full [mdast](https://github.com/syntax-tree/mdast) specification. Common node types:
 
 | Node type | Description |
 |---|---|
