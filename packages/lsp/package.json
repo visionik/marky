@@ -22,7 +22,7 @@
     "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@crackdown/core": "workspace:*",
+    "@crackdown/core": "^0.1.0",
     "vscode-languageserver": "^9.0.0",
     "vscode-languageserver-textdocument": "^1.0.0",
     "vscode-uri": "^3.0.0"
