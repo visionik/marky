@@ -19,15 +19,30 @@ This command:
 
 ## Rule mapping reference
 
-| markdownlint rule | marky equivalent | Package |
-|---|---|---|
-| MD001 (heading-increment) | `md001Rule` | `@marky/compat-markdownlint` |
-| MD009 (trailing-spaces) | `md009Rule` / `md009Fixer` | `@marky/core` |
-| MD010 (no-hard-tabs) | `md010Rule` / `md010Fixer` | `@marky/core` |
-| MD013 (line-length) | `md013Rule` | `@marky/compat-markdownlint` |
-| MD022 (blanks-around-headings) | `md022Rule` | `@marky/compat-markdownlint` |
-| MD041 (first-line-heading) | `md041Rule` | `@marky/compat-markdownlint` |
-| MD005, MD007, MD031, MD032 | Not yet implemented | — |
+18 markdownlint rules are supported. `marky migrate` maps all of them automatically.
+
+| markdownlint rule | Status | marky equivalent | Package |
+|---|---|---|---|
+| MD001 (heading-increment) | ✅ | `md001Rule` | `@marky/compat-markdownlint` |
+| MD005 (list-indent) | ✅ | `md005Rule` | `@marky/compat-markdownlint` |
+| MD007 (unordered-list-indent) | ✅ | `md007Rule` (configurable `indent`, default 2) | `@marky/compat-markdownlint` |
+| MD009 (trailing-spaces) | ✅ | `md009Rule` + `md009Fixer` | `@marky/core` |
+| MD010 (no-hard-tabs) | ✅ | `md010Rule` + `md010Fixer` | `@marky/core` |
+| MD012 (multiple-blank-lines) | ✅ | `md012Rule` + `md012Fixer` | `@marky/compat-markdownlint` |
+| MD013 (line-length) | ✅ | `md013Rule` (configurable `lineLength`, default 80) | `@marky/compat-markdownlint` |
+| MD022 (blanks-around-headings) | ✅ | `md022Rule` | `@marky/compat-markdownlint` |
+| MD024 (no-duplicate-headings) | ✅ | `md024Rule` | `@marky/compat-markdownlint` |
+| MD025 (single-top-level-heading) | ✅ | `md025Rule` | `@marky/compat-markdownlint` |
+| MD026 (trailing-punctuation) | ✅ | `md026Rule` | `@marky/compat-markdownlint` |
+| MD031 (blanks-around-fences) | ✅ | `md031Rule` | `@marky/compat-markdownlint` |
+| MD032 (blanks-around-lists) | ✅ | `md032Rule` | `@marky/compat-markdownlint` |
+| MD033 (no-inline-html) | ✅ | `md033Rule` | `@marky/compat-markdownlint` |
+| MD034 (no-bare-urls) | ✅ | `md034Rule` | `@marky/compat-markdownlint` |
+| MD040 (fenced-code-language) | ✅ | `md040Rule` | `@marky/compat-markdownlint` |
+| MD041 (first-line-heading) | ✅ | `md041Rule` | `@marky/compat-markdownlint` |
+| MD047 (single-trailing-newline) | ✅ | `md047Rule` + `md047Fixer` | `@marky/compat-markdownlint` |
+| MD003 (heading-style) | ❌ Not yet implemented | — | — |
+| MD036 (no-emphasis-as-heading) | ❌ Not yet implemented | — | — |
 
 ## Manual migration
 
@@ -42,9 +57,15 @@ Create `marky.config.ts`:
 ```ts
 import {
   md001Rule,
+  md012Rule, md012Fixer,
   md013Rule,
   md022Rule,
+  md024Rule,
+  md025Rule,
+  md031Rule,
+  md040Rule,
   md041Rule,
+  md047Rule, md047Fixer,
 } from '@marky/compat-markdownlint'
 import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@marky/core'
 import type { MarkyConfig } from '@marky/core'
@@ -52,16 +73,24 @@ import type { MarkyConfig } from '@marky/core'
 const config: MarkyConfig = {
   plugins: [
     md001Rule,   // heading levels increment by 1
-    md009Rule,   // no trailing spaces (lint)
-    md010Rule,   // no hard tabs (lint)
+    md009Rule,   // no trailing spaces
+    md010Rule,   // no hard tabs
+    md012Rule,   // no multiple consecutive blank lines
     md013Rule,   // line length ≤ 80
     md022Rule,   // blank lines around headings
+    md024Rule,   // no duplicate heading text
+    md025Rule,   // single top-level heading
+    md031Rule,   // blank lines around fenced code blocks
+    md040Rule,   // fenced code blocks have a language
     md041Rule,   // first line must be a heading
+    md047Rule,   // file ends with a newline
   ],
   fixers: [
-    md009Fixer,           // auto-strip trailing spaces
-    md010Fixer,           // auto-replace tabs with 4 spaces
-    // (c) => md010Fixer(c, { tabSize: 2 }),  // custom tab size
+    md009Fixer,                              // strip trailing spaces
+    md010Fixer,                              // replace tabs with spaces
+    md012Fixer,                              // collapse multiple blank lines
+    // (c) => md010Fixer(c, { tabSize: 2 }), // custom tab size
+    md047Fixer,                              // append trailing newline
   ],
 }
 

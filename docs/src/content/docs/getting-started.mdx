@@ -47,17 +47,27 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 
    ```ts
    // marky.config.ts
-   import { md013Rule, md041Rule } from '@marky/compat-markdownlint'
+   import { md009Rule, md009Fixer, md010Rule, md010Fixer } from '@marky/core'
+   import {
+     md040Rule, md041Rule, md047Rule, md047Fixer,
+   } from '@marky/compat-markdownlint'
    import { remarkLintMermaid } from '@marky/plugin-mermaid'
    import type { MarkyConfig } from '@marky/core'
 
    const config: MarkyConfig = {
      plugins: [
-       md013Rule,        // line-length (default 80 chars)
-       md041Rule,        // first-line must be a heading
+       md009Rule,        // no trailing spaces
+       md010Rule,        // no hard tabs
+       md040Rule,        // fenced code blocks have a language
+       md041Rule,        // first line must be a heading
+       md047Rule,        // file ends with newline
        remarkLintMermaid // validate mermaid code blocks
      ],
-     fixers: [],         // add md009Fixer, md010Fixer etc. here
+     fixers: [
+       md009Fixer,       // auto-fix trailing spaces
+       md010Fixer,       // auto-fix hard tabs
+       md047Fixer,       // auto-fix missing trailing newline
+     ],
    }
 
    export default config
@@ -78,7 +88,7 @@ import { Tabs, TabItem, Steps, Code } from '@astrojs/starlight/components'
 | `@marky/core` | Core pipeline, programmatic API (`lintString`, `lint`, `lintStringFix`) |
 | `@marky/cli` | CLI (`marky lint`, `marky migrate`, `marky lsp`) |
 | `@marky/plugin-mermaid` | First-class Mermaid diagram validation |
-| `@marky/compat-markdownlint` | markdownlint rule shims (MD001, MD009, MD010, MD013, MD022, MD041) |
+| `@marky/compat-markdownlint` | 18 markdownlint rule shims: MD001, MD005, MD007, MD009, MD010, MD012, MD013, MD022, MD024, MD025, MD026, MD031, MD032, MD033, MD034, MD040, MD041, MD047 |
 | `@marky/lsp` | Language Server for editor integration (Neovim, Zed, Helix) |
 | `@marky/vscode` | VS Code extension |
 

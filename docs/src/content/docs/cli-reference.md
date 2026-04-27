@@ -96,19 +96,24 @@ marky migrate .markdownlintrc
 
 Output:
 
-```
+```text
 Analyzing /project/.markdownlintrc...
 
 Supported rules (will be migrated):
+  ✓ MD009  →  md009Rule from @marky/core  (No trailing spaces)
+  ✓ MD010  →  md010Rule from @marky/core  (No hard tabs)
   ✓ MD013  →  md013Rule from @marky/compat-markdownlint  (Line length)
   ✓ MD041  →  md041Rule from @marky/compat-markdownlint  (First line heading)
+  ✓ MD047  →  md047Rule from @marky/compat-markdownlint  (Files should end with a single newline)
 
 Unsupported rules (require manual attention):
-  ✗ MD005  →  no marky equivalent yet
+  ✗ MD003  →  no marky equivalent yet
 
-Migration complete: 2 rules migrated, 1 rule requires manual attention.
+Migration complete: 5 rules migrated, 1 rule requires manual attention.
 Generated: /project/marky.config.ts
 ```
+
+18 markdownlint rules are supported in total. Run `marky migrate` with any `.markdownlintrc` to see the full report for your config.
 
 ---
 
