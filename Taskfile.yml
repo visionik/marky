@@ -1,5 +1,13 @@
 version: '3'
 
+includes:
+  go:
+    taskfile: ./Taskfile.go.yml
+    optional: true
+  deft:
+    taskfile: ./deft/Taskfile.yml
+    optional: true
+
 tasks:
   default:
     desc: List available tasks

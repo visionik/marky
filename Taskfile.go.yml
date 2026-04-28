@@ -1,0 +1,57 @@
+version: '3'
+
+tasks:
+  build:
+    desc: Build the crackdown Go binary
+    cmds:
+      - mkdir -p bin
+      - cd go && go build -o ../bin/crackdown-go ./cmd/crackdown
+
+  test:
+    desc: Run Go tests
+    dir: go
+    cmd: go test ./...
+
+  test:coverage:
+    desc: Run Go tests with coverage (fails below 85%; excludes entry point)
+    dir: go
+    cmds:
+      - |
+        go test -coverprofile=coverage.out -covermode=atomic \
+          -coverpkg=./internal/...,./pkg/... \
+          ./internal/... ./pkg/...
+      - |
+        total=$(go tool cover -func=coverage.out | grep "^total:" | awk '{print $3}' | tr -d '%')
+        echo "Coverage: ${total}%"
+        awk -v val="$total" 'BEGIN {
+          if (val + 0 < 85.0) {
+            print "Coverage " val "% is below the required 85%"
+            exit 1
+          }
+        }'
+      - rm -f coverage.out
+
+  vet:
+    desc: Run go vet static analysis
+    dir: go
+    cmd: go vet ./...
+
+  fmt:
+    desc: Format Go source code
+    dir: go
+    cmd: gofmt -w .
+
+  fmt:check:
+    desc: Check Go formatting (no writes)
+    dir: go
+    cmd: |
+      unformatted=$(gofmt -l .)
+      if [ -n "$unformatted" ]; then
+        echo "Go files need formatting:"
+        echo "$unformatted"
+        exit 1
+      fi
+
+  check:
+    desc: Run all Go quality checks (vet, fmt:check, build, test:coverage)
+    deps: [vet, fmt:check, build, test:coverage]
