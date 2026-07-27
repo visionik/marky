@@ -1,6 +1,8 @@
 node_modules/
 dist/
 coverage/
+bin/
+*.out
 *.tsbuildinfo
 .DS_Store
 *.premigrate.*
